@@ -30,7 +30,7 @@
 @media print{body{background:white}.header{background:white;color:#172943;padding:8px}.header small,.header-actions,.controls,#print,.chart-tools,.details>summary{display:none!important}.page{max-width:none;padding:0}.panel,.metric{box-shadow:none;break-inside:avoid}.driver-card,.stint-card,.swap-card{break-inside:avoid}#lapsPanel{display:none}.header h1{color:#172943}}
 </style></head><body>
 <header class="header"><div class="header-inner">
- <div class="brand"><div class="brand-icon">🏁</div><div><h1>レース分析ダッシュボード</h1><small>ドライバー別ペース・交代記録・スティント分析</small></div></div>
+ <div class="brand"><div class="brand-icon">🏁</div><div><h1>レース分析ダッシュボード</h1><small>ドライバー別ペース・交代記録・スティント分析　｜　表示版 3</small></div></div>
  <div class="header-actions"><a href="./">← 記録入力に戻る</a><button id="refresh" type="button">↻ 再読み込み</button><button id="print" type="button">印刷／PDF</button></div>
 </div></header>
 <main class="page">
@@ -39,7 +39,7 @@
   <div class="control"><label for="exclude">交代前後の除外範囲</label><select id="exclude"><option value="1" selected>前後1周ずつ（標準）</option><option value="2">前後2周ずつ</option><option value="0">交代周を除外しない</option></select></div>
   <label class="check" for="outliers"><input id="outliers" type="checkbox">通常ペースの120%超も除外</label>
  </div>
- <p id="lastUpdated" class="notice" role="status" aria-live="polite">保存された記録を読み込んでいます。</p>
+ <p id="lastUpdated" class="notice" role="status" aria-live="polite">表示版 3：保存された記録を読み込んでいます。</p>
  <p class="notice"><strong>集計ルール：</strong>警告のある周回、メモに「ピット・交代・給油」などを含む周回、設定した交代前後の周回を平均ペースから除外。除外周も元記録とグラフには残します。交代はドライバー名の切替から推定しており、ピット停止の正確な秒数ではありません。<br><strong>データ：</strong>この端末・ブラウザに保存された記録を表示。LINEで他の人に共有する場合は入力アプリの「共有用スプレッドシート」を使用してください。</p>
  <p id="error" class="error" hidden role="alert"></p>
  <div id="empty" class="empty" hidden><p>このブラウザに分析できるレース記録がありません。</p><a href="./">記録入力アプリへ戻る</a></div>
@@ -53,7 +53,7 @@
  <section id="swapsPanel" class="panel"><div class="panel-title"><h2>🔄 メンバー交代の履歴</h2><span id="swapCount" class="pill"></span></div><p class="panel-note">交代位置と、交代前後の累積タイム・ラップタイムを表示。「通常ペースとの差」は前後2周の遅れの参考値であり、ピット作業時間そのものではありません。正確なピット停止時間は入庫・出庫の時刻を別途記録する必要があります。</p><div id="swaps" class="swap-grid"></div></section>
  <section id="lapsPanel" class="panel"><div class="panel-title"><h2>全周回の記録と除外理由</h2><span id="lapCount" class="pill"></span></div><details class="details"><summary>全ラップを展開して確認する</summary><div id="laps"></div></details></section>
 </main><footer>軽自動車耐久レース分析｜計算結果は推定を含みます。記録と実際のピットタイミングを照らし合わせて確認してください。分析ページでは記録は変更しません。</footer>
-<script src="./analytics-core.js?v=1"></script><script>(function viewerApp(){
+<script src="./analytics-core.js?v=3"></script><script>(function viewerApp(){
  'use strict';
  const A=analyticsCore();
  const KEY='kei_endurance_laplogger_v3',LEGACY='kei_endurance_laplogger_v2';
@@ -68,22 +68,35 @@
  const getNames=()=>race?Object.keys(race.sessions):[];
  function load(){
    const error=$('error');error.hidden=true;
+   race=null;
+   let data;
    try{
      const raw=localStorage.getItem(KEY)||localStorage.getItem(LEGACY);
      if(!raw)throw Error('このブラウザにはまだレース記録がありません。入力画面で記録するか、JSONバックアップを復元してください。');
-     const data=JSON.parse(raw);
-     if(!data||typeof data.sessions!=='object'||Array.isArray(data.sessions))throw Error('保存記録の形式が正しくありません。');
-     race=data;const names=getNames();
+     data=JSON.parse(raw);
+     if(!data||!data.sessions||typeof data.sessions!=='object'||Array.isArray(data.sessions))throw Error('保存記録の形式が正しくありません。');
+     const names=Object.keys(data.sessions);
      if(!names.length)throw Error('セッションがありません。');
+     if(!names.every(n=>Array.isArray(data.sessions[n])))throw Error('セッションの記録形式が正しくありません。');
+     race=data;
      if(!names.includes(selected))selected=names.includes(race.current)?race.current:names[0];
      $('session').innerHTML=names.map(n=>`<option value="${esc(n)}">${esc(n)}（${race.sessions[n].length}件）</option>`).join('');
      $('session').value=selected;
      $('empty').hidden=true;
+   }catch(err){
+     $('empty').hidden=false;
+     error.hidden=false;error.textContent='記録の読み込みに失敗：'+err.message;
+     ['summary','timeline','chartPanel','driversPanel','swapsPanel','lapsPanel'].forEach(id=>{const el=$(id);if(el)el.hidden=true;});
+     return;
+   }
+   try{
      refresh();
    }catch(err){
-     race=null;$('empty').hidden=false;
-     error.hidden=false;error.textContent='記録を読み込めません：'+err.message;
-     ['summary','timeline','chartPanel','driversPanel','swapsPanel','lapsPanel'].forEach(id=>$(id).hidden=true);
+     const name=selected,qty=race&&race.sessions[name]?race.sessions[name].length:0;
+     $('empty').hidden=true;
+     error.hidden=false;
+     error.textContent='記録は取得済み（'+name+'・'+qty+'件）ですが、分析表示でエラー：'+err.message;
+     if($('lastUpdated'))$('lastUpdated').textContent='記録の取得：成功 ／ 分析表示：エラー（表示のみの問題です）';
    }
  }
  function svgChart(data,pick,colors){
