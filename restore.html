@@ -81,7 +81,18 @@ function normalize(obj){
  const state={version:3,current:names.includes(obj.current)?obj.current:names[0],
    drivers:Array.isArray(obj.drivers)?obj.drivers.filter(x=>typeof x==='string'):[],
    selectedDriver:typeof obj.selectedDriver==='string'?obj.selectedDriver:'',
-   sessions:obj.sessions};
+   sessions:obj.sessions,
+   yellowFlags:Object.fromEntries(names.map(name=>{
+    const raw=obj.yellowFlags&&typeof obj.yellowFlags==='object'&&!Array.isArray(obj.yellowFlags)?obj.yellowFlags[name]:null;
+    return [name,Array.isArray(raw)?raw.filter(x=>x&&typeof x==='object'&&typeof x.start==='string'&&Number.isFinite(Date.parse(x.start))).map(x=>({
+      id:String(x.id||x.start),start:x.start,
+      end:typeof x.end==='string'&&Number.isFinite(Date.parse(x.end))?x.end:null,
+      startNo:Number.isSafeInteger(Number(x.startNo))&&Number(x.startNo)>0?Number(x.startNo):null,
+      endNo:Number.isSafeInteger(Number(x.endNo))&&Number(x.endNo)>0?Number(x.endNo):null,
+      driverStart:typeof x.driverStart==='string'?x.driverStart:'',
+      driverEnd:typeof x.driverEnd==='string'?x.driverEnd:''
+    })):[]];
+   }))};
  return {state,names,count};
 }
 function readFile(file){
