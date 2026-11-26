@@ -192,4 +192,6 @@ function makeShareXlsx(){
   return zipFiles(files);
 }
 $('exportShareXlsx').onclick=()=>{try{const blob=makeShareXlsx(),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='軽耐久_LINE共有用_'+stamp()+'.xlsx';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);msg('共有用Excelを保存しました。Googleドライブにアップロードして共有リンクをLINEで送ってください。');}catch(err){alert('共有用シートの出力に失敗しました: '+err.message);}};
-$('exportExcel').onclick=()=>$'
+$('exportExcel').onclick=()=>{try{const blob=makeXlsx(),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='軽耐久_ラップ記録_'+stamp()+'.xlsx';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);msg(Object.keys(state.sessions).length+'セッションをExcel（.xlsx）に出力しました');}catch(err){alert('Excel出力に失敗しました: '+err.message);}};
+window.addEventListener('beforeunload',()=>persist());render();persist();if(location.protocol==='file:'){$('saveState').textContent='HTMLファイルを直接開いています。Safariで公開URLを開くことを推奨';}else{$('lap').focus();}
+</script></body></html>
