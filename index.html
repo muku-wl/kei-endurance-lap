@@ -4,14 +4,27 @@
 a.restore-link{font:inherit;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:9px;padding:10px 16px;min-height:42px;text-decoration:none;cursor:pointer;font-weight:700;background:#e8eef9;color:#172b49}a.restore-link:hover{filter:brightness(.97)}a.restore-link:focus-visible{outline:3px solid #f5ab34}
 </style></head><body><header><div><h1>🏁 軽自動車耐久レース　ラップ記録</h1><small>Safari / Chrome 対応・同じ端末のブラウザに自動保存（他の端末とは同期しません）</small></div><span id="saveState">保存待機中</span></header><main class="page"><p class="info" style="margin:0 0 12px">このページは各自の端末で利用できます。記録はこの端末内だけに保存され、LINEでURLを送っても他の人には共有されません。記録の引き継ぎは「JSONバックアップ」→「復元」を使ってください。</p><nav class="tabs" id="tabs" aria-label="セッション切替"></nav><div class="actions" style="margin:-5px 0 15px"><button id="openReportTop" class="primary">📊 成績を見る</button><button id="newSession">＋ セッション追加</button><button id="renameSession">名前変更</button><button id="clearSession" class="danger" title="セッション名とドライバー登録を残し、選択中のラップ記録だけを消去">🧹 このセッションの記録をクリア</button><button id="deleteSession" class="danger">セッション削除</button></div><div id="sessionEditor" class="panel" hidden>
 <form id="sessionForm"><div class="field"><label for="sessionName" id="sessionEditorLabel">セッション名</label><input id="sessionName" autocomplete="off" maxlength="60" placeholder="例：決勝ヒート3" required></div><div class="actions"><button type="submit" class="primary">保存する</button><button type="button" id="cancelSessionEditor">キャンセル</button></div></form>
-</div><div class="main"><section class="panel"><h2 style="margin:0 0 14px">毎周の入力</h2><form id="entryForm"><div class="field"><label for="lap">ラップタイム（基本はここだけ）</label><input id="lap" class="big" autocomplete="off" inputmode="numeric" placeholder="例 102345 / 59876"><p class="help">数字だけでもOK：102345 → 1:02.345、59876 → 59.876。Enterで記録追加。</p></div><div class="field"><label for="total">総合タイム（必要なときのみ）</label><input id="total" class="midsize" inputmode="decimal" autocomplete="off" placeholder="例 12:34.567"></div><div class="field"><label for="lapNo">実周回数（通常は自動）</label><input id="lapNo" type="number" min="1" step="1" placeholder="次の周回を自動設定"></div><div class="field"><label for="driver">現在のドライバー</label><select id="driver"></select></div><div class="actions" style="margin-bottom:12px"><input id="newDriver" style="flex:1;min-width:140px" placeholder="新しいドライバー名"><button type="button" id="addDriver">登録</button></div><div class="field"><label for="note">メモ（任意）</label><input id="note" placeholder="ピットイン・計測ミスなど"></div><button type="submit" class="primary submit">＋ この周回を記録　↵</button></form><div class="actions" style="margin-top:11px"><button id="undo">↶ 直前の操作を取り消す</button><button id="resetInputs">入力をクリア</button></div><p id="flash" role="status"></p><div class="info">入力漏れに気づいたら、次の記録で「実周回数」に正しい周回を入力。後から一覧の「編集」でタイムや周回を修正できます。周回が飛んだ区間のタイムは推測しません。</div></section><section class="panel"><div class="metrics"><div class="metric"><span>最終記録周回</span><strong id="mCount">—</strong></div><div class="metric"><span>記録件数</span><strong id="mRecords">0</strong></div><div class="metric"><span>ベストラップ</span><strong id="mBest">—</strong></div><div class="metric"><span>要確認</span><strong id="mWarn">0</strong></div></div><div class="toolbar"><h2>記録一覧 <span class="hint">（スマホは各カードの編集をタップ）</span></h2><div class="actions"><button id="exportReport" class="primary">📊 レポートを見る</button><button id="exportShareXlsx" class="primary">📗 共有用スプレッドシート</button><button id="exportExcel">Excel（.xlsx）出力</button><button id="backup">JSONバックアップ</button><a class="restore-link" href="./restore.html">📂 記録を復元（JSON）</a></div></div>
+</div><div class="main"><section class="panel"><h2 style="margin:0 0 14px">毎周の入力</h2><form id="entryForm"><div class="field"><label for="lap">ラップタイム（基本はここだけ）</label><input id="lap" class="big" autocomplete="off" inputmode="numeric" placeholder="例 102345 / 59876"><p class="help">数字だけでもOK：102345 → 1:02.345、59876 → 59.876。Enterで記録追加。</p></div><div class="field"><label for="total">総合タイム（必要なときのみ）</label><input id="total" class="midsize" inputmode="decimal" autocomplete="off" placeholder="例 12:34.567"></div><div class="field"><label for="lapNo">実周回数（通常は自動）</label><input id="lapNo" type="number" min="1" step="1" placeholder="次の周回を自動設定"></div><div class="field"><label for="driver">現在のドライバー</label><select id="driver"></select></div><div class="actions" style="margin-bottom:12px"><input id="newDriver" style="flex:1;min-width:140px" placeholder="新しいドライバー名"><button type="button" id="addDriver">登録</button></div><div class="field"><label for="note">メモ（任意）</label><input id="note" placeholder="ピットイン・計測ミスなど"></div><button type="submit" class="primary submit">＋ この周回を記録　↵</button></form><div class="actions" style="margin-top:11px"><button id="undo">↶ 直前の操作を取り消す</button><button id="resetInputs">入力をクリア</button></div><p id="flash" role="status"></p><div class="info">入力漏れに気づいたら、次の記録で「実周回数」に正しい周回を入力。後から一覧の「編集」でタイムや周回を修正できます。周回が飛んだ区間のタイムは推測しません。</div></section><section class="panel"><div class="metrics"><div class="metric"><span>最終記録周回</span><strong id="mCount">—</strong></div><div class="metric"><span>記録件数</span><strong id="mRecords">0</strong></div><div class="metric"><span>ベストラップ</span><strong id="mBest">—</strong></div><div class="metric"><span>要確認</span><strong id="mWarn">0</strong></div></div><div class="toolbar"><h2>記録一覧 <span class="hint">（スマホは各カードの編集をタップ）</span></h2><div class="actions"><button id="exportReport" class="primary">📊 レポートを見る</button><button id="exportShareXlsx" class="primary">📗 共有用スプレッドシート</button><button id="exportExcel">Excel（.xlsx）出力</button><button id="backup">JSONバックアップ</button><a class="restore-link" href="#inlineRestore">📂 記録を復元（JSON）</a></div></div>
+<section id="inlineRestore" class="manual" style="margin:12px 0;scroll-margin-top:18px;background:#eff6ff;border:2px solid #c4d9f4">
+ <h3 style="margin:0 0 9px">📂 この画面で記録を復元</h3>
+ <p class="help">下の欄からアプリのJSONバックアップを選択してください。読み込んだ件数を確認してから、現在の記録を置き換えます。</p>
+ <label for="inlineRestoreFile"><strong>バックアップ（.json）を選択</strong></label>
+ <input type="file" id="inlineRestoreFile" accept=".json,application/json" style="display:block;width:100%;max-width:100%;margin:10px 0;padding:12px;background:white;border:2px dashed #9ab8e7;border-radius:10px">
+ <p id="inlineRestoreStatus" class="help" role="status" aria-live="polite">ファイルが選択されていません。</p>
+ <p class="help">Excel（.xlsx）は復元できません。<a href="./restore.html">以前の復元専用ページはこちら</a>。</p>
+</section>
 <div class="manual"><details><summary>LINEでスプレッドシートを共有する方法</summary><p class="help">①「共有用スプレッドシート」で .xlsx を保存 → ② <a href="https://drive.google.com/drive/my-drive" target="_blank" rel="noopener noreferrer">Googleドライブ</a>にアップロード → ③ Googleスプレッドシートで開く → ④ 共有設定を「リンクを知っている全員：閲覧者」に変更 → ⑤ コピーしたリンクをLINEで送信。Googleアカウント側の共有設定に従い、リンクを知る人は誰でも閲覧できます。元アプリの端末内データは公開しません。</p><p class="help">共有用ファイルには、総合結果・ドライバー別成績・ラップ推移のグラフ用データ・各セッションの全ラップが入ります。Excel用グラフを添付していますが、Googleスプレッドシート変換時にグラフが保持されない場合は「ラップ推移」シートから作り直せます。</p></details></div><div class="scroll"><table><thead><tr><th>周</th><th>ドライバー</th><th>ラップ</th><th>総合</th><th>状態</th><th>メモ</th><th>修正</th></tr></thead><tbody id="rows"></tbody></table></div><div class="manual"><details><summary>入力ルールと注意点</summary><p class="help">ラップのみ：直前の累積が確定し、周回が連続していれば総合を自動計算。総合のみ：直前周の総合が確定していれば差分でラップを計算。両方入力：整合性を検査。周回飛び：総合を入力しても、その差を1周のラップとは扱わず「欠測区間」と表示します。</p><p class="help">「編集」では入力した元の値を更新できます。修正後は周回順に再計算されます。記録したデータはこのブラウザの保存領域に残りますが、ブラウザのデータ消去・端末故障に備え、レース途中にもJSONバックアップを保存してください。Excelへの出力は全セッションのスナップショットで、編集結果はアプリへ自動では戻りません。</p></details></div></section></div></main><footer>LINEでは、このGitHub PagesサイトのURLを共有して、SafariやChromeで開いてください。アプリ内の成績レポートは読み取り専用です。端末間でデータは同期されません。記録の受け渡しにはJSONバックアップを使ってください。セッションの記録だけ消したい場合は上部の「このセッションの記録をクリア」を使ってください。ブラウザのプライベートモードは使用しないでください。</footer><div id="modalWrap" class="modal-wrap"><div class="modal"><h2>記録の修正</h2><form id="editForm"><div class="modal-grid"><div class="field"><label>周回数</label><input id="eNo" type="number" min="1" required></div><div class="field"><label>ドライバー</label><select id="eDriver"></select></div></div><div class="field"><label>ラップタイム（空欄可）</label><input id="eLap" inputmode="numeric" placeholder="例 102345"></div><div class="field"><label>総合タイム（空欄可）</label><input id="eTotal" inputmode="decimal" placeholder="例 12:34.567"></div><div class="field"><label>メモ</label><input id="eNote"></div><div class="actions"><button class="primary" type="submit">保存して再計算</button><button type="button" id="cancelEdit">キャンセル</button><button type="button" class="danger" id="deleteRow">この記録を削除</button></div></form></div></div><div id="reportOverlay" class="report-overlay" role="dialog" aria-label="成績レポート" aria-modal="true" hidden><div class="report-bar"><div><div class="report-bar-title">📊 成績レポート</div><div class="report-bar-note">この画面で直接閲覧できます。外部アプリは開きません。</div></div><div class="actions"><button type="button" id="refreshReport" title="最新の記録で更新">↻ 更新</button><button type="button" id="saveReport" title="PC用にHTMLファイルを保存">HTML保存</button><button type="button" class="primary" id="closeReport">✕ 戻る</button></div></div><iframe id="reportFrame" title="成績レポートの内容" sandbox="allow-scripts"></iframe></div><script>
 'use strict';
 const KEY='kei_endurance_laplogger_v3';
 const defaultSessions=['予選','第一ヒート','第二ヒート'];
 function fresh(){return {version:3,current:'予選',drivers:[],selectedDriver:'',sessions:Object.fromEntries(defaultSessions.map(x=>[x,[]]))};}
 function migrate(d){if(!d||!d.sessions||typeof d.sessions!=='object'||Array.isArray(d.sessions))throw Error('形式違い');const keys=Object.keys(d.sessions);if(!keys.length||!keys.every(k=>Array.isArray(d.sessions[k])))throw Error('形式違い');return {version:3,current:keys.includes(d.current)?d.current:keys[0],drivers:Array.isArray(d.drivers)?d.drivers:[],selectedDriver:d.selectedDriver||'',sessions:d.sessions};}
-let state;try{const found=JSON.parse(localStorage.getItem(KEY)||localStorage.getItem('kei_endurance_laplogger_v2'));state=found&&found.sessions?migrate(found):fresh();}catch{state=fresh();}
+let state,initialLoadError='';
+try{
+ const stored=localStorage.getItem(KEY)||localStorage.getItem('kei_endurance_laplogger_v2');
+ const found=stored?JSON.parse(stored):null;
+ state=found&&found.sessions?migrate(found):fresh();
+}catch(e){state=fresh();initialLoadError='保存済みデータの読込エラー。元データを消去せずに保持しています：'+e.message;}
 let undoStack=[];let editingId=null;const $=id=>document.getElementById(id);
 const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function snap(){undoStack.push(JSON.stringify(state));if(undoStack.length>30)undoStack.shift();}
@@ -65,6 +78,53 @@ $('undo').onclick=()=>{if(!undoStack.length){msg('取り消せる操作はあり
 function download(filename,content,mime){const blob=new Blob([content],{type:mime}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);}
 function stamp(){return new Date().toISOString().replace(/[:.]/g,'-');}
 $('backup').onclick=()=>{download('軽耐久_バックアップ_'+stamp()+'.json',JSON.stringify(state,null,2),'application/json');msg('バックアップを保存しました');};
+
+$('inlineRestoreFile').addEventListener('change',async e=>{
+ const input=e.target,file=input.files&&input.files[0];
+ if(!file)return;
+ const status=$('inlineRestoreStatus');
+ status.textContent='ファイルを確認中：'+file.name;
+ try{
+  if(!/\.json$/i.test(file.name))throw Error('JSON（.json）ファイルを選択してください。');
+  const src=typeof file.text==='function'?await file.text():await new Promise((resolve,reject)=>{
+    const fr=new FileReader();fr.onload=()=>resolve(String(fr.result));fr.onerror=()=>reject(Error('ファイルを読み込めませんでした'));fr.readAsText(file);
+  });
+  const incoming=migrate(JSON.parse(src));
+  for(const [name,records] of Object.entries(incoming.sessions)){
+   for(const rec of records){
+    if(!rec||typeof rec.id!=='string'||!Number.isSafeInteger(Number(rec.no))||Number(rec.no)<1)throw Error(name+'の周回記録が不正です。');
+   }
+  }
+  const n=Object.values(incoming.sessions).reduce((a,records)=>a+records.length,0);
+  const prev=Object.values(state.sessions).reduce((a,records)=>a+records.length,0);
+  const summary='復元ファイル：'+Object.keys(incoming.sessions).length+'セッション・'+n+'件\n現在：'+Object.keys(state.sessions).length+'セッション・'+prev+'件';
+  if(!confirm(summary+'\n\n現在の全記録を置き換えます。先にJSONバックアップを保存済みなら復元しますか？')){status.textContent='復元をキャンセルしました。';return;}
+  const existing=localStorage.getItem(KEY);
+  if(existing)localStorage.setItem(KEY+'_before_restore',existing);
+  const serialized=JSON.stringify(incoming);
+  localStorage.setItem(KEY,serialized);
+  if(localStorage.getItem(KEY)!==serialized)throw Error('保存データの検証に失敗しました。');
+  snap();
+  state=incoming;
+  render();
+  const actual=Object.values(state.sessions).reduce((a,records)=>a+records.length,0);
+  if(actual!==n)throw Error('画面で読み込んだ記録件数が一致しません。');
+  const done='✅ 復元成功：'+Object.keys(state.sessions).length+'セッション・'+actual+'件を、この画面に反映しました。';
+  status.textContent=done;msg(done);
+  $('inlineRestore').scrollIntoView({block:'nearest'});
+ }catch(err){status.textContent='❌ 復元エラー：'+err.message;alert(status.textContent);}
+ finally{input.value='';}
+});
+window.addEventListener('pageshow',e=>{
+ if(!e.persisted)return;
+ try{
+  const raw=localStorage.getItem(KEY);
+  if(!raw)return;
+  const incoming=migrate(JSON.parse(raw));
+  if(JSON.stringify(state)!==JSON.stringify(incoming)){state=incoming;render();}
+ }catch(err){$('inlineRestoreStatus').textContent='保存記録の再取得に失敗：'+err.message;}
+});
+
 // Read-only, self-contained mobile report: no remote libraries, no editing or localStorage.
 function reportHtml(){
  const data=Object.entries(state.sessions).sort(([a],[b])=>a===state.current?-1:b===state.current?1:0).map(([name,records])=>({name,rows:derive(records).map(r=>({no:r.no,driver:r.driver||'未指定',lap:r.derivedLap,total:r.derivedTotal,flag:r.flag,note:r.note||'',warn:r.warn}))}));
@@ -193,5 +253,5 @@ function makeShareXlsx(){
 }
 $('exportShareXlsx').onclick=()=>{try{const blob=makeShareXlsx(),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='軽耐久_LINE共有用_'+stamp()+'.xlsx';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);msg('共有用Excelを保存しました。Googleドライブにアップロードして共有リンクをLINEで送ってください。');}catch(err){alert('共有用シートの出力に失敗しました: '+err.message);}};
 $('exportExcel').onclick=()=>{try{const blob=makeXlsx(),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='軽耐久_ラップ記録_'+stamp()+'.xlsx';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);msg(Object.keys(state.sessions).length+'セッションをExcel（.xlsx）に出力しました');}catch(err){alert('Excel出力に失敗しました: '+err.message);}};
-window.addEventListener('beforeunload',()=>persist());render();persist();if(location.protocol==='file:'){$('saveState').textContent='HTMLファイルを直接開いています。Safariで公開URLを開くことを推奨';}else{$('lap').focus();}
+render();if(initialLoadError){$('inlineRestoreStatus').textContent=initialLoadError;$('saveState').textContent='⚠ 読込エラー';}if(new URLSearchParams(location.search).has('restored')){const n=Object.values(state.sessions).reduce((a,rows)=>a+rows.length,0);$('inlineRestoreStatus').textContent='別の復元ページから戻りました。現在この画面で読み込めた記録は'+Object.keys(state.sessions).length+'セッション・'+n+'件です。違う場合は下の欄からJSONを直接選択してください。';}if(location.protocol==='file:'){$('saveState').textContent='HTMLファイルを直接開いています。Safariで公開URLを開くことを推奨';}else{$('lap').focus();}
 </script></body></html>
