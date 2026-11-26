@@ -1,0 +1,206 @@
+<!doctype html><html lang="ja"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>軽耐久｜レース分析・ドライバー別ペース</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Yu Gothic","Meiryo",sans-serif;color:#172943;background:#f2f5fa}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0}button,select,input{font:inherit}button{cursor:pointer}
+.header{background:linear-gradient(125deg,#101f3a,#193d6a);color:#fff;padding:19px 20px 25px}
+.header-inner{max-width:1160px;margin:auto;display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.brand{display:flex;gap:12px;align-items:center}.brand-icon{font-size:29px;background:#ffffff18;padding:10px;border-radius:15px}.brand h1{margin:0;font-size:24px;letter-spacing:-.5px}.brand small{display:block;color:#d4e2f9;margin-top:4px}
+.header-actions{display:flex;gap:8px;flex-wrap:wrap}.header a,.header button{border:1px solid #ffffff66;background:#ffffff16;color:#fff;padding:10px 15px;border-radius:10px;font-weight:700;text-decoration:none;min-height:43px}
+.page{max-width:1160px;margin:auto;padding:0 14px 45px}
+.controls{position:relative;z-index:1;margin:-12px 0 18px;padding:14px;background:#fff;box-shadow:0 5px 24px #19304d17;border:1px solid #dde5f1;border-radius:14px;display:grid;grid-template-columns:2fr 1fr auto;align-items:end;gap:12px}
+.control{display:grid;gap:5px}.control label{font-size:12px;font-weight:800;color:#546680}.control select{width:100%;background:#f8fafd;border:1px solid #cddaea;border-radius:9px;min-height:44px;padding:10px}
+.check{min-height:44px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;white-space:nowrap}.check input{width:18px;height:18px}
+.notice{color:#556780;font-size:12px;line-height:1.7;margin:0 0 18px;padding:0 2px}.notice strong{color:#203c69}
+.panel{border:1px solid #dce5f0;background:#fff;border-radius:16px;margin:14px 0;padding:20px;box-shadow:0 2px 12px #2339550c;scroll-margin-top:18px}
+.panel-title{display:flex;flex-wrap:wrap;gap:9px;align-items:center;justify-content:space-between;margin-bottom:13px}
+.panel h2{font-size:19px;margin:0;letter-spacing:-.3px}.panel h3{margin:0}.panel-note{font-size:12px;color:#697995;margin:2px 0 13px;line-height:1.65}
+.metric-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:16px 0}.metric{background:#fff;border:1px solid #dce5f0;border-radius:13px;padding:15px;min-width:0}.metric span{color:#596e8b;font-size:12px;font-weight:800}.metric strong{display:block;font-size:clamp(18px,2vw,27px);margin:6px 0;letter-spacing:-.5px;white-space:nowrap;font-variant-numeric:tabular-nums}.metric small{font-size:11px;color:#7b869b;line-height:1.4}
+.chart-tools{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.chart-tools select{padding:9px;border-radius:8px;background:#f7faff;border:1px solid #cddaea;max-width:270px}
+.paceplot{display:block;width:100%;height:auto;min-height:220px;background:#fbfdff;border-radius:12px;border:1px solid #e5ecf5}.legend{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.legend-item{display:flex;gap:6px;align-items:center;background:#f1f5fa;border:1px solid #e1e7f1;padding:6px 10px;border-radius:30px;color:#283c59;font-size:12px;font-weight:750}.legend-item.selected{outline:2px solid #4e83e0}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.driver-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.driver-card{background:#fff;text-align:left;border:1px solid #dce5f0;border-radius:14px;padding:16px;color:inherit;min-width:0;transition:border-color .15s,box-shadow .15s}.driver-card:hover,.driver-selected{border-color:#5f93e9;box-shadow:0 0 0 2px #a2c0f655}.driver-name{display:flex;gap:8px;align-items:center;font-size:16px}.driver-flag{margin-left:auto;color:#3262b4;font-size:11px}.driver-primary{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:15px 0}.driver-primary div{background:#f5f8fd;border-radius:10px;padding:10px}.driver-primary small{display:block;font-size:11px;color:#65758e}.driver-primary strong{display:block;font-size:clamp(18px,2.2vw,26px);margin-top:5px;font-variant-numeric:tabular-nums}.driver-extra{display:flex;flex-wrap:wrap;gap:5px 14px;font-size:12px;color:#64748b}.pace-trend{margin-top:11px;padding:9px 10px;border-radius:8px;background:#eff4fb;font-weight:700;font-size:12px}.pace-trend.negative{background:#fff0ed;color:#b2382b}.pace-trend.positive{background:#eaf8f1;color:#126f4b}
+.timeline-bars{display:flex;gap:3px;min-height:20px;background:#f1f5f9;border-radius:9px;overflow:hidden;margin:8px 0 15px}.stint-bar{min-width:4px}.stint-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.stint-card{padding:13px;border:1px solid #e1e9f3;border-radius:12px;background:#fbfcfe}.stint-head{display:flex;gap:8px;align-items:center}.stint-num{background:#e8eef8;border-radius:7px;font-size:12px;font-weight:800;padding:5px 8px}.stint-numbers{display:flex;align-items:baseline;gap:10px;margin:12px 0}.stint-numbers strong{font-size:20px}.stint-numbers span{color:#6a768c;font-size:12px}.mini-metrics{display:flex;flex-direction:column;gap:4px;font-size:12px;color:#607088}.mini-metrics b{color:#21324c;font-variant-numeric:tabular-nums}
+.small-muted{font-size:11px;color:#8190a5;margin-top:9px}
+.swap-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.swap-card{padding:16px;border:1px solid #e1e7f2;border-left:4px solid #d69c2a;border-radius:12px;background:#fff}.swap-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:7px;margin-bottom:12px}.swap-index{font-size:12px;color:#935f14;background:#fff2d5;padding:5px 8px;border-radius:6px;font-weight:800}.swap-main{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.swap-main small{display:block;font-size:10px;color:#72819a}.swap-main strong{display:block;font-size:clamp(12px,1.5vw,17px);margin-top:4px;font-variant-numeric:tabular-nums}.swap-extra{margin:12px 0 8px;display:flex;gap:6px 14px;flex-wrap:wrap;color:#5d708a;font-size:12px}.reference{background:#f7fafc;border-radius:8px;padding:9px;font-size:12px;color:#536786}.reference b{color:#b15b17}.pill{background:#eaf0fa;border-radius:15px;font-size:11px;font-weight:800;color:#536786;padding:5px 10px}
+.details{border:1px solid #e4ecf4;border-radius:12px;overflow:hidden}.details>summary{cursor:pointer;list-style:inside;background:#eef4ff;padding:15px;font-weight:800;color:#164d9e}.lap-row{display:grid;grid-template-columns:65px minmax(90px,1fr) 120px minmax(120px,1fr);gap:8px;align-items:center;padding:10px 12px;border-bottom:1px solid #e6edf5;font-size:13px}.lap-row:nth-child(odd){background:#fcfdff}.lap-excluded{background:#fff9e9!important}.lap-no{font-weight:800}.lap-driver{display:flex;gap:6px;align-items:center}.lap-time{font-variant-numeric:tabular-nums;text-align:right;font-size:15px}.lap-reason{font-size:11px;color:#62718a}.lap-note{grid-column:2/-1;color:#64748b;font-size:12px}.muted{font-size:13px;color:#617089;line-height:1.7}.error{background:#fff0f0;border:1px solid #f2bbbb;color:#9c2424;padding:13px;border-radius:11px;white-space:pre-wrap}.empty{background:white;border-radius:14px;border:1px solid #dce5f0;padding:22px}footer{text-align:center;color:#6a7890;font-size:12px;padding:15px;line-height:1.7}
+@media(max-width:950px){.metric-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.stint-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.swap-grid{grid-template-columns:1fr}}
+@media(max-width:650px){.header{padding:14px 12px 28px}.header-inner{flex-direction:column}.brand h1{font-size:21px}.header-actions{width:100%}.header a,.header button{flex:1;text-align:center}.page{padding:0 9px 36px}.controls{grid-template-columns:1fr 1fr;gap:10px;padding:12px}.control:first-child{grid-column:1/-1}.check{grid-column:1/-1;min-height:30px}.metric-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.metric{padding:12px}.metric strong{font-size:20px}.panel{padding:13px;margin:11px 0}.driver-grid,.stint-grid{grid-template-columns:1fr}.driver-primary strong{font-size:24px}.swap-main{grid-template-columns:repeat(3,minmax(0,1fr))}.swap-main strong{font-size:13px}.lap-row{grid-template-columns:52px 1fr auto;gap:5px}.lap-reason{grid-column:1/-1}.lap-note{grid-column:1/-1}.paceplot{min-height:0}.chart-tools select{max-width:unset;width:100%}}
+@media print{body{background:white}.header{background:white;color:#172943;padding:8px}.header small,.header-actions,.controls,#print,.chart-tools,.details>summary{display:none!important}.page{max-width:none;padding:0}.panel,.metric{box-shadow:none;break-inside:avoid}.driver-card,.stint-card,.swap-card{break-inside:avoid}#lapsPanel{display:none}.header h1{color:#172943}}
+</style></head><body>
+<header class="header"><div class="header-inner">
+ <div class="brand"><div class="brand-icon">🏁</div><div><h1>レース分析ダッシュボード</h1><small>ドライバー別ペース・交代記録・スティント分析　｜　表示版 2</small></div></div>
+ <div class="header-actions"><a href="./">← 記録入力に戻る</a><button id="refresh" type="button">↻ 再読み込み</button><button id="print" type="button">印刷／PDF</button></div>
+</div></header>
+<main class="page">
+ <div class="controls">
+  <div class="control"><label for="session">分析するレース・セッション</label><select id="session" aria-label="レースを選択"></select></div>
+  <div class="control"><label for="exclude">交代前後の除外範囲</label><select id="exclude"><option value="1" selected>前後1周ずつ（標準）</option><option value="2">前後2周ずつ</option><option value="0">交代周を除外しない</option></select></div>
+  <label class="check" for="outliers"><input id="outliers" type="checkbox">通常ペースの120%超も除外</label>
+ </div>
+ <p id="lastUpdated" class="notice" role="status" aria-live="polite">表示版 2：保存された記録を読み込んでいます。</p>
+ <p class="notice"><strong>集計ルール：</strong>警告のある周回、メモに「ピット・交代・給油」などを含む周回、設定した交代前後の周回を平均ペースから除外。除外周も元記録とグラフには残します。交代はドライバー名の切替から推定しており、ピット停止の正確な秒数ではありません。<br><strong>データ：</strong>この端末・ブラウザに保存された記録を表示。LINEで他の人に共有する場合は入力アプリの「共有用スプレッドシート」を使用してください。</p>
+ <p id="error" class="error" hidden role="alert"></p>
+ <div id="empty" class="empty" hidden><p>このブラウザに分析できるレース記録がありません。</p><a href="./">記録入力アプリへ戻る</a></div>
+ <section id="summary" class="metric-grid" aria-label="セッション概要"></section>
+ <section id="chartPanel" class="panel">
+  <div class="panel-title"><h2>📈 ラップタイムの変化</h2><div class="chart-tools"><select id="driver" aria-label="グラフに表示するドライバー"><option value="all">全ドライバーを表示</option></select></div></div>
+  <div id="chart"></div><div id="legend" class="legend"></div><p class="panel-note" id="chartNote"></p>
+ </section>
+ <section id="driversPanel" class="panel"><div class="panel-title"><h2>🏎️ ドライバー別・通常走行ペース</h2></div><p class="panel-note">交代・ピットを除いたラップで比較。カードをタップするとその人のラップ推移が見られます。「後半の変化」は有効ラップの前半側と後半側の各約1/3を比較した参考値です。</p><div id="drivers" class="driver-grid"></div></section>
+ <section id="timeline" class="panel"><div class="panel-title"><h2>⏱️ ドライバーの走行順序と区間</h2></div><p class="panel-note">色付きバーは記録件数に比例。各区間の走行時間は、前の周回の総合タイムから区間最後の総合タイムを引いたもの。欠測などで確定できないときは「—」です。</p><div id="timelineBars" class="timeline-bars"></div><div id="stints" class="stint-grid"></div></section>
+ <section id="swapsPanel" class="panel"><div class="panel-title"><h2>🔄 メンバー交代の履歴</h2><span id="swapCount" class="pill"></span></div><p class="panel-note">交代位置と、交代前後の累積タイム・ラップタイムを表示。「通常ペースとの差」は前後2周の遅れの参考値であり、ピット作業時間そのものではありません。正確なピット停止時間は入庫・出庫の時刻を別途記録する必要があります。</p><div id="swaps" class="swap-grid"></div></section>
+ <section id="lapsPanel" class="panel"><div class="panel-title"><h2>全周回の記録と除外理由</h2><span id="lapCount" class="pill"></span></div><details class="details"><summary>全ラップを展開して確認する</summary><div id="laps"></div></details></section>
+</main><footer>軽自動車耐久レース分析｜計算結果は推定を含みます。記録と実際のピットタイミングを照らし合わせて確認してください。分析ページでは記録は変更しません。</footer>
+<script src="./analytics-core.js?v=2"></script><script>(function viewerApp(){
+ 'use strict';
+ const A=analyticsCore();
+ const KEY='kei_endurance_laplogger_v3',LEGACY='kei_endurance_laplogger_v2';
+ const $=id=>document.getElementById(id);
+ const esc=x=>String(x??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+ const palette=['#2563eb','#0f9d70','#8b5cf6','#c57d11','#dc4080','#0891b2','#64748b','#e0564e','#4f66b5','#4d7c0f'];
+ let race=null,selected='',driverPick='all';
+ const sec=x=>A.fmt(x);
+ const num=x=>Number.isFinite(x)?x.toFixed(3):'—';
+ const delta=x=>x===null||!Number.isFinite(x)?'—':(x>0?'+':'')+x.toFixed(3)+'秒';
+ const tone=x=>x===null?'':x>0.001?'negative':x<-.001?'positive':'';
+ const getNames=()=>race?Object.keys(race.sessions):[];
+ function load(){
+   const error=$('error');error.hidden=true;
+   race=null;
+   let data;
+   try{
+     const raw=localStorage.getItem(KEY)||localStorage.getItem(LEGACY);
+     if(!raw)throw Error('このブラウザにはまだレース記録がありません。入力画面で記録するか、JSONバックアップを復元してください。');
+     data=JSON.parse(raw);
+     if(!data||!data.sessions||typeof data.sessions!=='object'||Array.isArray(data.sessions))throw Error('保存記録の形式が正しくありません。');
+     const names=Object.keys(data.sessions);
+     if(!names.length)throw Error('セッションがありません。');
+     if(!names.every(n=>Array.isArray(data.sessions[n])))throw Error('セッションの記録形式が正しくありません。');
+     race=data;
+     if(!names.includes(selected))selected=names.includes(race.current)?race.current:names[0];
+     $('session').innerHTML=names.map(n=>`<option value="${esc(n)}">${esc(n)}（${race.sessions[n].length}件）</option>`).join('');
+     $('session').value=selected;
+     $('empty').hidden=true;
+   }catch(err){
+     $('empty').hidden=false;
+     error.hidden=false;error.textContent='記録の読み込みに失敗：'+err.message;
+     ['summary','timeline','chartPanel','driversPanel','swapsPanel','lapsPanel'].forEach(id=>{const el=$(id);if(el)el.hidden=true;});
+     return;
+   }
+   try{
+     refresh();
+   }catch(err){
+     const name=selected,qty=race&&race.sessions[name]?race.sessions[name].length:0;
+     $('empty').hidden=true;
+     error.hidden=false;
+     error.textContent='記録は取得済み（'+name+'・'+qty+'件）ですが、分析表示でエラー：'+err.message;
+     if($('lastUpdated'))$('lastUpdated').textContent='記録の取得：成功 ／ 分析表示：エラー（表示のみの問題です）';
+   }
+ }
+ function svgChart(data,pick,colors){
+   const valid=data.rows.filter(r=>Number.isFinite(r.derivedLap)&&r.derivedLap>0&&(!pick||pick==='all'||r.driver===pick));
+   if(!valid.length)return '<p class="muted">この表示条件でグラフにできるラップがありません。</p>';
+   const w=920,h=290,l=66,r=18,t=22,b=43;
+   const reference=valid.filter(x=>x.clean).map(x=>x.derivedLap);
+   const raw=reference.length?reference:valid.map(x=>x.derivedLap);
+   let lo=Math.max(0,A.pct(raw,.05)-2),hi=A.pct(raw,.95)+3;
+   if(!Number.isFinite(lo)||!Number.isFinite(hi)){lo=0;hi=100;}
+   if(hi-lo<6){const mid=(hi+lo)/2;lo=Math.max(0,mid-3);hi=lo+6;}
+   const start=Math.min(...data.rows.map(x=>x.no)),last=Math.max(...data.rows.map(x=>x.no));
+   const x=no=>l+(w-l-r)*(no-start)/Math.max(1,last-start);
+   const y=value=>Math.max(t,Math.min(h-b,h-b-(h-b-t)*(value-lo)/(hi-lo)));
+   const out=[];
+   out.push(`<svg class="paceplot" role="img" aria-label="周回数に対するラップタイム。色はドライバー別。交代前後や要確認は白抜きで表示" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet">`);
+   for(let i=0;i<5;i++){const val=lo+(hi-lo)*i/4,Y=y(val);out.push(`<line x1="${l}" y1="${Y.toFixed(2)}" x2="${w-r}" y2="${Y.toFixed(2)}" stroke="#dce6f2" stroke-width="1"/>`);out.push(`<text x="${l-9}" y="${(Y+4).toFixed(2)}" text-anchor="end" font-size="12" fill="#617089">${val.toFixed(1)}</text>`);}
+   out.push(`<text x="11" y="13" font-size="12" fill="#64748b">秒</text>`);
+   for(const p of [0,.25,.5,.75,1]){const lap=Math.round(start+(last-start)*p),X=x(lap);out.push(`<text x="${X.toFixed(2)}" y="${h-16}" text-anchor="middle" font-size="12" fill="#64748b">${lap}周</text>`);}
+   for(const tr of data.transitions.slice(0,80)){
+      const X=x(tr.nextNo);
+      out.push(`<line x1="${X.toFixed(2)}" y1="${t}" x2="${X.toFixed(2)}" y2="${h-b}" stroke="#e29a19" stroke-width="1.5" stroke-dasharray="4 5" opacity=".65"><title>交代 ${esc(tr.from)} → ${esc(tr.to)} / ${tr.prevNo}周後</title></line>`);
+   }
+   let seg=[];
+   function flush(){
+     if(seg.length>=2){
+       out.push(`<polyline points="${seg.map(z=>`${x(z.no).toFixed(2)},${y(z.derivedLap).toFixed(2)}`).join(' ')}" stroke="${colors.get(seg[0].driver)||'#65758c'}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" fill="none"/>`);
+     }
+     seg=[];
+   }
+   for(const row of data.rows){
+      if((pick!=='all'&&row.driver!==pick)||!Number.isFinite(row.derivedLap)||row.derivedLap<=0||row.warn){flush();continue;}
+      if(seg.length&&(seg[seg.length-1].driver!==row.driver||row.no-seg[seg.length-1].no!==1))flush();
+      seg.push(row);
+   }
+   flush();
+   for(const row of valid.slice(0,1800)){
+      const cx=x(row.no),cy=y(row.derivedLap),color=colors.get(row.driver)||'#65758c';
+      const tip=`${row.no}周　${row.driver}\nラップ：${sec(row.derivedLap)}\n${row.clean?'平均計算に使用':'除外：'+row.reasons.join('・')}${row.notes?'\n'+row.notes:''}`;
+      out.push(`<circle cx="${cx.toFixed(2)}" cy="${cy.toFixed(2)}" r="${row.clean?2.8:4.3}" fill="${row.clean?color:'#fff'}" stroke="${row.clean?color:'#d97706'}" stroke-width="${row.clean?1:2.3}"><title>${esc(tip)}</title></circle>`);
+   }
+   out.push('</svg>');
+   return out.join('');
+ }
+ function refresh(){
+   if(!race)return;
+   const name=selected;
+   const radius=Number($('exclude').value),outlier=$('outliers').checked;
+   const a=A.analyze(race.sessions[name],radius,outlier);
+   const names=a.driverStats.map(d=>d.driver);
+   const colors=new Map(names.map((d,i)=>[d,palette[i%palette.length]]));
+   $('lastUpdated').textContent=`対象：${name} ／ ${a.rows.length}件の記録から集計`;
+   const pick=driverPick==='all'||names.includes(driverPick)?driverPick:'all';
+   driverPick=pick;
+   $('driver').innerHTML='<option value="all">全ドライバーを表示</option>'+names.map(d=>`<option value="${esc(d)}">${esc(d)}</option>`).join('');
+   $('driver').value=pick;
+   const excluded=a.rows.length-a.clean.length;
+   $('summary').hidden=false;
+   $('summary').innerHTML=[
+     ['最終周回',a.finalLap?a.finalLap+'周':'—','入力された最大周回番号'],
+     ['通常平均ペース',sec(a.cleanAverage),'交代・メモ・要確認を除外'],
+     ['最速ラップ',sec(a.best),'警告なしの最速記録'],
+     ['交代回数',a.transitions.length+'回','ドライバー名の切替から推定'],
+     ['平均に使用',a.clean.length+' / '+a.rows.length+'周',`除外：${excluded}周 ／ 要確認：${a.warnings}周`]
+   ].map(([label,value,sub])=>`<div class="metric"><span>${label}</span><strong>${esc(value)}</strong><small>${esc(sub)}</small></div>`).join('');
+   $('chartPanel').hidden=false;
+   $('chart').innerHTML=svgChart(a,pick,colors);
+   $('legend').innerHTML=names.map(d=>`<button type="button" class="legend-item ${pick===d?'selected':''}" data-driver="${esc(d)}"><span class="dot" style="background:${colors.get(d)}"></span>${esc(d)}</button>`).join('');
+   $('chartNote').textContent='横軸：周回数 ／ 縦軸：ラップタイム（秒）。色はドライバー別。オレンジの縦点線が交代箇所、白抜きの点が平均から除外した周回です。極端に遅いラップは縦軸端に収めています。';
+   $('timeline').hidden=false;
+   if(a.stints.length){
+     $('timelineBars').innerHTML=a.stints.map(s=>`<div class="stint-bar" style="flex:${Math.max(1,s.lapCount)};background:${colors.get(s.driver)||'#64748b'}" title="${esc(s.driver+' / '+s.firstNo+'〜'+s.lastNo+'周')}"></div>`).join('');
+     $('stints').innerHTML=a.stints.map((s,i)=>`<div class="stint-card"><div class="stint-head"><span class="stint-num">${i+1}</span><span class="dot" style="background:${colors.get(s.driver)||'#64748b'}"></span><strong>${esc(s.driver)}</strong></div><div class="stint-numbers"><strong>${s.firstNo}〜${s.lastNo}周</strong><span>${s.lapCount}記録</span></div><div class="mini-metrics"><span>走行時間 <b>${sec(s.duration)}</b></span><span>通常平均 <b>${sec(s.cleanAvg)}</b></span><span>使用ラップ <b>${s.validCount}周</b></span></div><div class="small-muted">経過 ${sec(s.firstElapsed)} → ${sec(s.lastElapsed)}</div></div>`).join('');
+   }else{$('timelineBars').innerHTML='';$('stints').innerHTML='<p class="muted">記録なし</p>';}
+   $('driversPanel').hidden=false;
+   $('drivers').innerHTML=a.driverStats.length?a.driverStats.map(d=>{
+     const trend=d.delta===null?'有効ラップ4周以上で表示':(d.delta>0?`後半 +${d.delta.toFixed(3)}秒（遅い）`:d.delta<0?`後半 ${d.delta.toFixed(3)}秒（速い）`:'前半・後半で変化なし');
+     return `<button type="button" class="driver-card ${pick===d.driver?'driver-selected':''}" data-driver="${esc(d.driver)}"><div class="driver-name"><span class="dot" style="background:${colors.get(d.driver)||'#64748b'}"></span><strong>${esc(d.driver)}</strong><span class="driver-flag">グラフで見る</span></div><div class="driver-primary"><div><small>交代を除いた平均</small><strong>${sec(d.average)}</strong></div><div><small>ベスト</small><strong>${sec(d.best)}</strong></div></div><div class="driver-extra"><span>有効 ${d.cleanCount}周 / 記録 ${d.count}周</span><span>除外 ${d.excludedCount}周</span><span>ばらつき ${d.sd===null?'—':d.sd.toFixed(3)+'秒'}</span></div><div class="pace-trend ${tone(d.delta)}">↗ ${esc(trend)}</div></button>`;
+   }).join(''):'<p class="muted">ドライバー記録がありません。</p>';
+   $('swapsPanel').hidden=false;
+   $('swapCount').textContent=a.transitions.length+'件';
+   $('swaps').innerHTML=a.transitions.length?a.transitions.map((t,i)=>`
+      <article class="swap-card">
+        <div class="swap-top"><span class="swap-index">交代 ${i+1}</span><strong><span style="color:${colors.get(t.from)||'#64748b'}">${esc(t.from)}</span> → <span style="color:${colors.get(t.to)||'#64748b'}">${esc(t.to)}</span></strong></div>
+        <div class="swap-main"><div><small>交代位置</small><strong>${t.prevNo}周 → ${t.nextNo}周</strong></div><div><small>交代前の累積</small><strong>${sec(t.elapsedBefore)}</strong></div><div><small>交代後の累積</small><strong>${sec(t.elapsedAfter)}</strong></div></div>
+        <div class="swap-extra"><span>交代直前のラップ ${sec(t.oldLap)}</span><span>交代直後のラップ ${sec(t.newLap)}</span></div>
+        <div class="reference">通常ペースとの差（前後2周の参考値）：<b>${t.referenceLoss===null?'算出不可':'+'+t.referenceLoss.toFixed(3)+'秒'}</b>${t.gap?' ／ 途中に欠測あり':''}</div>
+      </article>`).join(''):'<p class="muted">記録上、ドライバー名の切替は見つかりませんでした。ドライバー名が未指定の区間を挟む場合、交代として判定しません。</p>';
+   $('lapsPanel').hidden=false;
+   $('lapCount').textContent=a.rows.length+'件';
+   $('laps').innerHTML=a.rows.map(r=>`<div class="lap-row ${r.clean?'':'lap-excluded'}"><span class="lap-no">${r.no}周</span><span class="lap-driver"><span class="dot" style="background:${colors.get(r.driver)||'#64748b'}"></span>${esc(r.driver)}</span><b class="lap-time">${sec(r.derivedLap)}</b><span class="lap-reason">${r.clean?'集計対象':'除外：'+esc(r.reasons.join('・'))}</span>${r.notes?`<div class="lap-note">メモ：${esc(r.notes)}</div>`:''}</div>`).join('')||'<p class="muted">ラップ記録はありません。</p>';
+ }
+ function chooseDriver(v){
+   driverPick=v;refresh();
+   document.getElementById('chartPanel').scrollIntoView({behavior:'smooth',block:'start'});
+ }
+ $('session').addEventListener('change',e=>{selected=e.target.value;driverPick='all';refresh()});
+ $('exclude').addEventListener('change',refresh);
+ $('outliers').addEventListener('change',refresh);
+ $('driver').addEventListener('change',e=>chooseDriver(e.target.value));
+ $('drivers').addEventListener('click',e=>{const b=e.target.closest('[data-driver]');if(b)chooseDriver(b.dataset.driver)});
+ $('legend').addEventListener('click',e=>{const b=e.target.closest('[data-driver]');if(b)chooseDriver(b.dataset.driver===driverPick?'all':b.dataset.driver)});
+ $('refresh').addEventListener('click',load);
+ $('print').addEventListener('click',()=>window.print());
+ window.addEventListener('pageshow',load);
+ load();
+})();</script></body></html>
