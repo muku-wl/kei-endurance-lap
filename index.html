@@ -83,7 +83,7 @@ footer{padding:17px 12px}
  <span id="saveState">保存待機中</span>
 </header>
 <main class="page app-page">
- <div class="page-utility"><a class="analysis-link" href="./analysis.html?v=20261126-3">📈 詳細なレース分析を見る</a><span class="utility-hint">保存記録からドライバー別のペース・交代履歴を確認</span></div>
+ <div class="page-utility"><a class="analysis-link" href="./analysis.html?v=20261126-yellow1">📈 詳細なレース分析を見る</a><span class="utility-hint">保存記録からドライバー別のペース・交代履歴を確認</span></div>
  <div class="session-bar">
   <span class="bar-label">レース・セッション</span>
   <nav class="tabs" id="tabs" aria-label="セッション切替"></nav>
@@ -359,7 +359,7 @@ window.addEventListener('pageshow',e=>{
 
 function xesc(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');}
 function xcell(v,col,row,isNumber=false){if(v===null||v===undefined||v==='')return `<c r="${col}${row}"/>`;return isNumber?`<c r="${col}${row}"><v>${v}</v></c>`:`<c r="${col}${row}" t="inlineStr"><is><t>${xesc(v)}</t></is></c>`;}
-function xmlSheet(name){const data=derive(state.sessions[name]);const headers=['周回数','ドライバー','ラップタイム','総合タイム','状態','メモ','入力ラップ（元値）','入力総合（元値）','入力日時'];let xml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"/></sheetViews><cols><col min="1" max="1" width="12" customWidth="1"/><col min="2" max="2" width="18" customWidth="1"/><col min="3" max="4" width="18" customWidth="1"/><col min="5" max="5" width="22" customWidth="1"/><col min="6" max="6" width="26" customWidth="1"/><col min="7" max="9" width="24" customWidth="1"/></cols><sheetData>';xml+='<row r="1">'+headers.map((v,i)=>xcell(v,String.fromCharCode(65+i),1)).join('')+'</row>';data.forEach((r,i)=>{const values=[r.no,r.driver,fmt(r.derivedLap),fmt(r.derivedTotal),r.flag,r.note,r.lap,r.total,r.created||''];xml+=`<row r="${i+2}">`+values.map((v,j)=>xcell(v,String.fromCharCode(65+j),i+2,j===0)).join('')+'</row>';});return xml+'</sheetData><autoFilter ref="A1:I'+(data.length+1)+'"/></worksheet>';}
+function xmlSheet(name){const data=derive(state.sessions[name]);const headers=['周回数','ドライバー','ラップタイム','総合タイム','状態','メモ','入力ラップ（元値）','入力総合（元値）','入力日時','計測時イエロー'];let xml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"/></sheetViews><cols><col min="1" max="1" width="12" customWidth="1"/><col min="2" max="2" width="18" customWidth="1"/><col min="3" max="4" width="18" customWidth="1"/><col min="5" max="5" width="22" customWidth="1"/><col min="6" max="6" width="26" customWidth="1"/><col min="7" max="9" width="24" customWidth="1"/></cols><sheetData>';xml+='<row r="1">'+headers.map((v,i)=>xcell(v,String.fromCharCode(65+i),1)).join('')+'</row>';data.forEach((r,i)=>{const values=[r.no,r.driver,fmt(r.derivedLap),fmt(r.derivedTotal),r.flag,r.note,r.lap,r.total,r.created||'',r.yellowAtRecord?'イエロー':'通常'];xml+=`<row r="${i+2}">`+values.map((v,j)=>xcell(v,String.fromCharCode(65+j),i+2,j===0)).join('')+'</row>';});return xml+'</sheetData><autoFilter ref="A1:J'+(data.length+1)+'"/></worksheet>';}
 // Offline XLSX: a valid uncompressed ZIP archive containing Office Open XML files.
 const enc=new TextEncoder();function crc32(bytes){let crc=0xffffffff;for(const b of bytes){crc^=b;for(let k=0;k<8;k++)crc=(crc>>>1)^((crc&1)?0xedb88320:0);}return (crc^0xffffffff)>>>0;}
 function zipFiles(files){const chunks=[],central=[];let offset=0;const u16=(v)=>[v&255,(v>>>8)&255],u32=v=>[v&255,(v>>>8)&255,(v>>>16)&255,(v>>>24)&255];for(const [path,content] of files){const name=enc.encode(path),data=enc.encode(content),crc=crc32(data);let local=Uint8Array.from([...u32(0x04034b50),...u16(20),...u16(0),...u16(0),...u16(0),...u16(0),...u32(crc),...u32(data.length),...u32(data.length),...u16(name.length),...u16(0)]);chunks.push(local,name,data);let head=Uint8Array.from([...u32(0x02014b50),...u16(20),...u16(20),...u16(0),...u16(0),...u16(0),...u16(0),...u32(crc),...u32(data.length),...u32(data.length),...u16(name.length),...u16(0),...u16(0),...u16(0),...u16(0),...u32(0),...u32(offset)]);central.push(head,name);offset+=local.length+name.length+data.length;}const cdlen=central.reduce((n,b)=>n+b.length,0),cdStart=offset;chunks.push(...central,Uint8Array.from([...u32(0x06054b50),...u16(0),...u16(0),...u16(files.length),...u16(files.length),...u32(cdlen),...u32(cdStart),...u16(0)]));return new Blob(chunks,{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});}
@@ -367,7 +367,7 @@ function makeXlsx(){const names=Object.keys(state.sessions),sheetNames=[],used=n
 const files=[];files.push(['[Content_Types].xml','<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'+names.map((_,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')+'</Types>']);files.push(['_rels/.rels','<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>']);files.push(['xl/workbook.xml','<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>'+sheetNames.map((s,i)=>`<sheet name="${xesc(s)}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join('')+'</sheets></workbook>']);files.push(['xl/_rels/workbook.xml.rels','<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+names.map((_,i)=>`<Relationship Id="rId${i+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join('')+'</Relationships>']);names.forEach((name,i)=>files.push([`xl/worksheets/sheet${i+1}.xml`,xmlSheet(name)]));return zipFiles(files);}
 function makeShareXlsx(){
   const rawNames=Object.keys(state.sessions);
-  const reserved=['総合結果','ドライバー別','ラップ推移'],used=new Set(reserved.map(s=>s.toLowerCase()));
+  const reserved=['総合結果','ドライバー別','ラップ推移','イエロー履歴'],used=new Set(reserved.map(s=>s.toLowerCase()));
   function nameOf(orig){let base=String(orig).replace(/[\\/*?:\[\]]/g,'_').replace(/^'+|'+$/g,'').slice(0,31)||'セッション',s=base,n=2;while(used.has(s.toLowerCase())){const suffix='_'+n++;s=base.slice(0,31-suffix.length)+suffix;}used.add(s.toLowerCase());return s;}
   const sessionSheetNames=rawNames.map(nameOf);
   const stats=rawNames.map((name,i)=>{
@@ -409,13 +409,20 @@ function makeShareXlsx(){
   const maxLap=stats.reduce((m,s)=>Math.max(m,s.finalLap),0);
   const plotted=Math.min(maxLap,2000),plotColumns=stats.map(s=>new Map(s.rows.filter(r=>!r.warn&&Number.isFinite(r.derivedLap)&&r.derivedLap>0).map(r=>[r.no,r.derivedLap])));
   const trendRows=Array.from({length:plotted},(_,i)=>[i+1,...plotColumns.map(m=>entry(m.has(i+1)?m.get(i+1):null,4))]);
-  const titles=['総合結果','ドライバー別','ラップ推移',...sessionSheetNames],sheets=[];
+  const titles=['総合結果','ドライバー別','ラップ推移','イエロー履歴',...sessionSheetNames],sheets=[];
   sheets.push(sheetXml('🏁 軽耐久｜総合結果','LINE共有用：Googleドライブにアップロード → Googleスプレッドシートで開く → 閲覧リンクを送信',['セッション','記録件数','最終周','ベスト','平均','要確認','ドライバー数','有効ラップ'],overview,[25,14,14,17,17,14,16,15],plotted>0));
   sheets.push(sheetXml('ドライバー別 成績','有効ラップ＝警告なし・タイムが確定した周回。平均にはピット周回が含まれる場合があります。',['セッション','ドライバー','記録数','有効ラップ','ベスト','平均','要確認','ベスト秒','平均秒'],driverRows,[23,22,15,16,17,17,15,17,17]));
   sheets.push(sheetXml('ラップタイム推移（秒）',plotted<maxLap?'グラフ用データは先頭2000周まで。全記録は各セッションのシートをご確認ください。':'各列がセッションの1周ごとの秒数です。欠測・要確認の周回は空欄になります。',['周回',...rawNames],trendRows,[12,...rawNames.map(()=>18)]));
+  const yellowRecords=[];
+  stats.forEach(s=>(state.yellowFlags&&state.yellowFlags[s.name]||[]).forEach((ev,i)=>{
+    const startMs=Date.parse(ev.start),endMs=ev.end?Date.parse(ev.end):null;
+    const duration=endMs!==null&&Number.isFinite(endMs)&&Number.isFinite(startMs)?Math.max(0,Math.round((endMs-startMs)/1000)):null;
+    yellowRecords.push([s.name,i+1,ev.start,ev.end||'継続中',ev.startNo||'—',ev.endNo||'—',duration!==null?entry(duration,4):'—',ev.end?'解除済み':'継続中']);
+  }));
+  sheets.push(sheetXml('イエローフラッグ履歴','開始・解除ボタンを押した端末の時刻です。周回番号は押下時の次周目安で、正確な周回中の位置ではありません。',['セッション','回数','開始時刻','解除時刻','開始目安周','解除目安周','継続秒','状態'],yellowRecords,[23,12,29,29,17,17,16,16]));
   stats.forEach(s=>{
-    const body=s.rows.map(r=>[r.no,r.driver||'未指定',fmt(r.derivedLap),entry(Number.isFinite(r.derivedLap)?r.derivedLap:null,4),fmt(r.derivedTotal),entry(Number.isFinite(r.derivedTotal)?r.derivedTotal:null,4),entry(r.flag,r.warn?5:6),r.note||'',r.created||'']);
-    sheets.push(sheetXml(s.name+'｜全ラップ','周回・ドライバー・ラップ・総合タイム・メモの保存時点の記録です。要確認の周回は黄色。',['周回','ドライバー','ラップ','ラップ秒','総合','総合秒','状態','メモ','記録日時'],body,[13,21,18,17,18,18,23,29,28]));
+    const body=s.rows.map(r=>[r.no,r.driver||'未指定',fmt(r.derivedLap),entry(Number.isFinite(r.derivedLap)?r.derivedLap:null,4),fmt(r.derivedTotal),entry(Number.isFinite(r.derivedTotal)?r.derivedTotal:null,4),entry(r.flag,r.warn?5:6),r.note||'',r.created||'',r.yellowAtRecord?'イエロー':'通常']);
+    sheets.push(sheetXml(s.name+'｜全ラップ','周回・ドライバー・ラップ・総合タイム・メモの保存時点の記録です。要確認の周回は黄色。',['周回','ドライバー','ラップ','ラップ秒','総合','総合秒','状態','メモ','記録日時','計測時イエロー'],body,[13,21,18,17,18,18,23,29,28,19]));
   });
   const styles='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'+
    '<numFmts count="1"><numFmt numFmtId="164" formatCode="0.000"/></numFmts>'+
