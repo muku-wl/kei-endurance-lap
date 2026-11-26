@@ -1,0 +1,467 @@
+<!doctype html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>軽耐久｜ラップ記録</title><style>
+:root{font-family:system-ui,'Meiryo',sans-serif;color:#18243a;background:#f2f5fa}*{box-sizing:border-box}body{margin:0}header{background:#10213e;color:#fff;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}h1{font-size:21px;margin:0}small{opacity:.85}.page{max-width:1280px;margin:18px auto;padding:0 14px}.tabs{display:flex;gap:8px;margin-bottom:15px;flex-wrap:wrap}button,input,select,textarea{font:inherit}button{border:0;border-radius:9px;padding:10px 16px;cursor:pointer;font-weight:700;background:#e8eef9;color:#172b49}button:hover{filter:brightness(.97)}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #f5ab34}.tab.on,.primary{background:#1356d2;color:#fff}[hidden]{display:none!important}.danger{color:#b91c1c}.panel{background:#fff;border:1px solid #dce5f1;border-radius:14px;padding:17px;margin-bottom:14px;box-shadow:0 2px 8px #192d4510}.main{display:grid;grid-template-columns:minmax(300px,400px) 1fr;gap:15px;align-items:start}.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}.field label{font-weight:700;font-size:14px}input,select,textarea{width:100%;border:2px solid #cad7e8;padding:10px 12px;background:#fff;border-radius:9px;color:#111827}input.big{font-size:32px;font-weight:800;letter-spacing:1px;padding:14px 12px}input.midsize{font-size:19px}p.help{color:#596779;font-size:13px;line-height:1.5;margin:3px 0 14px}.actions{display:flex;gap:8px;flex-wrap:wrap}button.submit{width:100%;font-size:22px;padding:16px;margin-top:6px}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}.metric{border:1px solid #e0e7f1;border-radius:10px;padding:10px;background:#f8faff}.metric strong{font-size:24px;display:block;white-space:nowrap}.metric span{font-size:12px;color:#65758c}.toolbar{display:flex;gap:7px;flex-wrap:wrap;align-items:center;justify-content:space-between}.toolbar h2{margin:0;font-size:18px}.scroll{overflow:auto;max-height:65vh;border:1px solid #e1e6ef;border-radius:9px;margin-top:10px}table{border-collapse:collapse;width:100%;min-width:780px;font-size:14px}th,td{padding:9px 8px;border-bottom:1px solid #e5ebf4;text-align:left}th{background:#edf3fc;position:sticky;top:0;z-index:1;white-space:nowrap}tr:nth-child(even){background:#f9fbff}tr.warn{background:#fff4da}td.num{text-align:right;font-variant-numeric:tabular-nums}td .tiny{padding:5px 9px;font-size:12px}.hint{font-size:12px;color:#64748b}.status{font-size:13px;font-weight:700}.ok{color:#18835e}.bad{color:#b45309}.info{border-left:4px solid #2b65c7;background:#edf4ff;padding:9px 12px;border-radius:5px;color:#263d61;font-size:13px;line-height:1.6}.modal-wrap{position:fixed;inset:0;background:#17223dc9;display:none;place-items:center;padding:15px;z-index:10}.modal-wrap.open{display:grid}.modal{background:white;border-radius:14px;max-width:480px;width:100%;padding:22px;max-height:95vh;overflow:auto}.modal h2{margin-top:0}.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}#flash{min-height:22px;font-size:14px;font-weight:700;color:#166534}footer{text-align:center;color:#64748b;font-size:12px;padding:14px}.manual{background:#f1f6ff;padding:10px;border-radius:10px;margin-top:8px}details summary{cursor:pointer;font-weight:700}@media(max-width:650px){.scroll{max-height:none;overflow:visible;border:0}table{min-width:0}#rows{display:block}table thead{display:none}#rows tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;border:1px solid #dce5f1;border-radius:12px;background:#fff;margin:9px 0;padding:10px}#rows tr.warn{background:#fff8e6}#rows td{display:flex;justify-content:space-between;align-items:center;border:0;min-width:0;padding:6px 4px;font-size:14px;gap:5px}#rows td:before{content:attr(data-label);font-size:11px;color:#64748b;font-weight:600;flex-shrink:0}#rows td:nth-child(1),#rows td:nth-child(5),#rows td:nth-child(6),#rows td:nth-child(7){grid-column:1/-1}#rows td:nth-child(1){font-size:18px;border-bottom:1px solid #e2e8f0}#rows td:nth-child(7) button{width:100%;background:#1555c6;color:#fff;min-height:42px}#rows td.num{text-align:left}#rows td .hint{display:none}.toolbar{align-items:stretch}.toolbar .actions{width:100%}.toolbar .actions button{flex:1;min-height:42px}input.big{font-size:30px}button{min-height:42px}.tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:7px}.tabs button{white-space:nowrap}}@media(max-width:850px){.main{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.page{padding:0 9px}.panel{padding:12px}header{padding:13px}}
+a.restore-link{font:inherit;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:9px;padding:10px 16px;min-height:42px;text-decoration:none;cursor:pointer;font-weight:700;background:#e8eef9;color:#172b49}a.restore-link:hover{filter:brightness(.97)}a.restore-link:focus-visible{outline:3px solid #f5ab34}
+
+/* Simplified recording screen v4 */
+.app-header{padding:13px max(15px,calc((100vw - 1250px)/2));gap:18px}
+.app-header h1{font-size:22px;letter-spacing:-.025em}
+.app-header small{font-size:12px;color:#d0e2ff}
+#saveState{font-size:12px;white-space:nowrap;color:#cce9df}
+.app-page{max-width:1270px;margin:12px auto}
+.page-utility{display:flex;gap:14px;align-items:center;margin:0 0 12px}
+.analysis-link{display:inline-flex;align-items:center;justify-content:center;border-radius:12px;background:#1556cc;color:#fff;text-decoration:none;font-weight:800;padding:12px 18px;min-height:46px}
+.analysis-link:hover{background:#0e459f}
+.utility-hint{font-size:12px;color:#63728b}
+.session-bar{border-radius:14px;background:#fff;border:1px solid #dce5f1;padding:13px 15px;margin-bottom:14px}
+.bar-label{display:block;color:#64748b;font-size:12px;font-weight:750;margin-bottom:8px}
+.session-bar .tabs{margin:0 0 5px}
+.session-bar .tabs .tab{font-size:14px;padding:10px 14px;border:1px solid #d9e4f4}
+.session-bar .tabs .tab.on{border-color:#1556cc}
+.manage-menu{border:1px solid #e1e8f3;border-radius:11px;margin-top:12px;background:#f8faff}
+.manage-menu>summary{padding:13px 14px;color:#244e89;font-size:14px;list-style:inside;font-weight:800;cursor:pointer}
+.manage-menu[open]>summary{border-bottom:1px solid #e1e8f3}
+.manage-menu>.actions,.data-menu>.actions{padding:14px;gap:8px}
+.manage-menu>p.help{padding:0 14px 12px}
+.main{grid-template-columns:minmax(310px,400px) minmax(0,1fr);gap:14px}
+.entry-panel,.records-panel{min-width:0}
+.section-heading,.record-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.section-heading h2,.record-heading h2{margin:0;font-size:19px}
+.section-heading p,.record-heading small{display:block;color:#64748b;font-size:12px;margin:3px 0 0}
+.step-marker{font-size:11px;color:#1856b1;background:#eaf2ff;border-radius:20px;padding:5px 10px;font-weight:800}
+.entry-panel .field{margin-bottom:14px}
+.entry-panel label{color:#2a4266}
+.entry-panel .big{font-size:34px;text-align:center;font-variant-numeric:tabular-nums;border-color:#9fbbeb;background:#f7fbff}
+.entry-panel button.submit{font-size:19px;margin-top:13px;border-radius:12px}
+.entry-foot-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}
+.entry-foot-actions button{flex:1;padding:10px;font-size:12px;min-height:42px}
+.advanced-fields,.usage-help{border:1px solid #e2e9f2;border-radius:10px;background:#fbfcff;margin:9px 0}
+.advanced-fields>summary,.usage-help>summary{padding:12px;color:#3d587b;font-size:13px;list-style:inside;cursor:pointer}
+.advanced-inner{padding:7px 12px 12px;border-top:1px solid #e8eef6}
+.advanced-inner .field:last-child{margin-bottom:0}
+.entry-panel p.help{margin:5px 0 10px}
+.entry-panel #flash{min-height:0;margin:11px 0 0}
+.records-panel .metrics{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:17px}
+.records-panel .metric{padding:9px;background:#f7faff}
+.records-panel .metric strong{font-size:clamp(17px,2vw,23px)}
+.record-heading button{padding:8px 12px;font-size:12px;min-height:36px}
+.records-panel .scroll{margin-top:0;max-height:61vh}
+.records-panel table{min-width:660px}
+.records-panel th,.records-panel td{padding:9px 7px}
+.data-menu{margin-top:15px}
+.data-actions .restore-link{background:#e8eef9;color:#172b49}
+.data-menu #inlineRestore{margin:0 12px 12px;padding:12px;background:#eef6ff;border:1px solid #cadaf2}
+#inlineRestore input[type=file]{display:block;width:100%;max-width:100%;margin:10px 0;padding:12px;background:#fff;border:2px dashed #9ab8e7;border-radius:10px}
+.data-menu>.usage-help{margin:0 12px 12px}
+.rules-menu{margin-top:12px}
+footer{padding:17px 12px}
+@media(max-width:850px){.main{grid-template-columns:1fr}.records-panel .metrics{grid-template-columns:repeat(4,minmax(0,1fr))}.utility-hint{display:none}.records-panel .scroll{max-height:none}}
+@media(max-width:650px){.app-header{padding:13px}.app-header h1{font-size:19px}.app-header small{font-size:11px}.app-page{padding:0 9px}.page-utility .analysis-link{width:100%}.records-panel .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.records-panel table{min-width:0}.data-actions>*{flex:1;min-width:138px}.entry-panel .big{font-size:32px}.session-bar{padding:12px}.record-heading h2{font-size:17px}.records-panel .scroll{max-height:none}.entry-panel,.records-panel{padding:13px}}
+
+
+.yellow-panel{border:2px solid #b5d4c6;background:#eef8f1;border-radius:13px;padding:14px;display:flex;gap:12px;align-items:center;justify-content:space-between;margin:0 0 11px}
+.yellow-panel.active{background:#fff0a8;border-color:#e8ab1a;box-shadow:0 0 0 2px #edb93528}
+.yellow-state{display:flex;flex-direction:column;gap:5px;min-width:0}
+.yellow-state strong{font-size:19px;color:#16634c;line-height:1.2}
+.yellow-panel.active .yellow-state strong{color:#704300;font-size:22px}
+.yellow-state small{color:#62716c;font-size:12px;line-height:1.5}
+.yellow-panel.active .yellow-state small{color:#805700;font-weight:650}
+.yellow-toggle{background:#f2cf55;color:#483000;border:1px solid #b98d17;font-weight:850;padding:13px 14px;min-height:49px;white-space:nowrap}
+.yellow-panel.active .yellow-toggle{background:#175f43;color:white;border-color:#175f43}
+.yellow-history-details{margin:0 0 17px;border:1px solid #e3e7ed;border-radius:10px;background:#fcfdff}
+.yellow-history-details>summary{padding:11px 13px;font-size:13px;color:#576783}
+.yellow-history{padding:0 12px 11px;font-size:13px;line-height:1.55}
+.yellow-event{padding:10px 2px;border-top:1px solid #e6edf4}
+.yellow-event strong{display:block;color:#62450c}
+.yellow-event small{display:block;color:#6b7790;margin-top:3px}
+.yellow-event.active strong{color:#9a5700}
+.yellow-pill{display:inline-block;padding:2px 6px;border-radius:6px;background:#fff0b3;color:#805000;font-size:11px;font-weight:800;vertical-align:middle;margin-left:4px}
+@media(max-width:650px){.yellow-panel{gap:9px;padding:11px}.yellow-state strong{font-size:17px}.yellow-panel.active .yellow-state strong{font-size:19px}.yellow-toggle{font-size:13px;padding:11px 10px;min-height:47px}}
+
+.edit-yellow-check{display:flex;gap:12px;align-items:center;border:2px solid #e5c46a;background:#fff9e6;border-radius:11px;padding:13px 11px;margin:12px 0 17px;cursor:pointer;font-weight:750;color:#654600}.edit-yellow-check input[type=checkbox]{width:22px;height:22px;flex:none;accent-color:#d79b00;cursor:pointer}.edit-yellow-check span{line-height:1.4}.edit-yellow-check small{display:block;margin-top:5px;font-size:12px;font-weight:400;color:#7b6750;line-height:1.45}
+.modal .edit-yellow-check{margin-top:0;margin-bottom:17px;position:sticky;top:-22px;z-index:2;box-shadow:0 3px 11px #9e7b161a}.modal .edit-yellow-check input[type=checkbox]{width:26px;height:26px;min-height:26px;min-width:26px}.modal h2{font-size:19px;margin-bottom:13px}
+</style></head><body>
+<header class="app-header">
+ <div><h1>🏁 軽耐久｜ラップ記録</h1><small>レース中はラップを入力するだけ。記録はこのブラウザに自動保存されます。</small></div>
+ <span id="saveState">保存待機中</span>
+</header>
+<main class="page app-page">
+ <div class="page-utility"><a class="analysis-link" href="./analysis.html?v=20261126-yellow1">📈 詳細なレース分析を見る</a><span class="utility-hint">保存記録からドライバー別のペース・交代履歴を確認</span></div>
+ <div class="session-bar">
+  <span class="bar-label">レース・セッション</span>
+  <nav class="tabs" id="tabs" aria-label="セッション切替"></nav>
+  <details class="manage-menu" id="sessionManage">
+   <summary>⚙ セッション管理</summary>
+   <div class="actions">
+    <button type="button" id="newSession">＋ セッション追加</button>
+    <button type="button" id="renameSession">名前変更</button>
+    <button type="button" id="clearSession" class="danger" title="セッション名とドライバー登録を残し、選択中のラップ記録だけを消去">🧹 記録をクリア</button>
+    <button type="button" id="deleteSession" class="danger">セッション削除</button>
+   </div>
+   <p class="help">記録クリアは現在のセッション内のラップのみを対象にします。実行前にバックアップをおすすめします。</p>
+  </details>
+ </div>
+ <div id="sessionEditor" class="panel" hidden>
+  <form id="sessionForm"><div class="field"><label for="sessionName" id="sessionEditorLabel">セッション名</label><input id="sessionName" autocomplete="off" maxlength="60" placeholder="例：決勝ヒート3" required></div><div class="actions"><button type="submit" class="primary">保存する</button><button type="button" id="cancelSessionEditor">キャンセル</button></div></form>
+ </div>
+ <div class="main">
+  <section class="panel entry-panel">
+   <div class="section-heading"><div><h2>ラップを記録</h2><p>毎周の操作はここだけ</p></div><span class="step-marker">入力</span></div>
+   <section id="yellowPanel" class="yellow-panel" aria-label="イエローフラッグ状態">
+ <div class="yellow-state">
+  <strong id="yellowLabel">🟩 通常走行</strong>
+  <small id="yellowSince">イエローフラッグは出ていません</small>
+ </div>
+ <button type="button" id="yellowToggle" class="yellow-toggle">🟨 イエロー開始</button>
+ </section>
+ <details class="yellow-history-details">
+ <summary>🕒 イエローフラッグ履歴 <span id="yellowHistoryCount">（0件）</span></summary>
+ <div id="yellowHistory" class="yellow-history"><p class="help">まだ記録はありません。</p></div>
+ </details>
+ <form id="entryForm">
+    <div class="field"><label for="driver">ドライバー</label><select id="driver"></select></div>
+    <div class="field"><label for="lap">ラップタイム</label><input id="lap" class="big" autocomplete="off" inputmode="numeric" placeholder="102345 / 59876"><p class="help">数字のみOK：102345 → 1:02.345 ／ 59876 → 59.876</p></div>
+    <div class="field"><label for="note">メモ（任意）</label><input id="note" placeholder="ピットイン・交代・計測ミスなど"></div>
+    <details class="advanced-fields">
+     <summary>＋ 詳細入力・ドライバー登録</summary>
+     <div class="advanced-inner">
+      <div class="field"><label for="total">総合タイム（必要な場合）</label><input id="total" class="midsize" inputmode="decimal" autocomplete="off" placeholder="例 12:34.567"></div>
+      <div class="field"><label for="lapNo">実周回数（通常は自動）</label><input id="lapNo" type="number" min="1" step="1" placeholder="次の周回を自動設定"></div>
+      <div class="field"><label for="newDriver">新しいドライバーを登録</label><div class="actions"><input id="newDriver" style="flex:1;min-width:130px" placeholder="ドライバー名"><button type="button" id="addDriver">登録</button></div></div>
+     </div>
+    </details>
+    <button type="submit" class="primary submit">＋ ラップを記録　↵</button>
+   </form>
+   <div class="entry-foot-actions"><button type="button" id="undo">↶ 直前の操作を取り消す</button><button type="button" id="resetInputs">入力をクリア</button></div>
+   <p id="flash" role="status"></p>
+   <details class="usage-help"><summary>入力漏れや周回飛びがあったとき</summary><p class="help">「詳細入力」から実周回数を修正できます。過去の記録は一覧の「編集」で修正してください。周回が飛んだ区間のタイムは推測せず、要確認として表示します。</p></details>
+  </section>
+  <section class="panel records-panel">
+   <div class="metrics">
+    <div class="metric"><span>最終周回</span><strong id="mCount">—</strong></div>
+    <div class="metric"><span>記録件数</span><strong id="mRecords">0</strong></div>
+    <div class="metric"><span>ベストラップ</span><strong id="mBest">—</strong></div>
+    <div class="metric"><span>要確認</span><strong id="mWarn">0</strong></div>
+   </div>
+   <div class="record-heading"><div><h2>最近の記録</h2><small>最新のラップから表示</small></div><button type="button" id="toggleAllRows">全件を表示</button></div>
+   <div class="scroll"><table><thead><tr><th>周</th><th>ドライバー</th><th>ラップ</th><th>総合</th><th>状態</th><th>メモ</th><th>修正</th></tr></thead><tbody id="rows"></tbody></table></div>
+   <details class="manage-menu data-menu" id="dataMenu">
+    <summary>📁 記録の保存・LINE共有・復元</summary>
+    <div class="actions data-actions">
+     <button type="button" id="exportShareXlsx" class="primary">📗 LINE共有用スプレッドシート</button>
+     <button type="button" id="exportExcel">Excel（.xlsx）出力</button>
+     <button type="button" id="backup">JSONバックアップ</button>
+     <a class="restore-link" href="#inlineRestore">📂 JSONを復元</a>
+    </div>
+    <section id="inlineRestore" class="manual" style="scroll-margin-top:16px">
+     <h3 style="margin:0 0 9px">📂 JSONバックアップの復元</h3>
+     <p class="help">下の欄からバックアップを選択。復元前に記録件数を確認し、承認後にデータを置き換えます。</p>
+     <label for="inlineRestoreFile"><strong>バックアップ（.json）を選択</strong></label>
+     <input type="file" id="inlineRestoreFile" accept=".json,application/json">
+     <p id="inlineRestoreStatus" class="help" role="status" aria-live="polite">ファイルが選択されていません。</p>
+     <p class="help">Excel（.xlsx）は復元できません。<a href="./restore.html">専用の復元ページ</a>も利用できます。</p>
+    </section>
+    <details class="usage-help"><summary>LINEでスプレッドシートを共有する方法</summary><p class="help">①共有用ファイルを出力 → ②<a href="https://drive.google.com/drive/my-drive" target="_blank" rel="noopener noreferrer">Googleドライブ</a>にアップロード → ③Googleスプレッドシートで開く → ④共有を「リンクを知っている全員・閲覧者」に設定 → ⑤URLをLINEで送信。共有した人以外にもリンクを知る人は閲覧できます。</p></details>
+   </details>
+   <details class="usage-help rules-menu"><summary>記録の計算ルール・バックアップの注意点</summary><p class="help">ラップまたは総合タイムから、連続周回で確定できる場合のみ累積と差分を補完します。入力漏れ・周回重複・タイム不一致を警告します。記録はこのブラウザ内に保存され、別の端末とは同期されません。レース中にもJSONバックアップを保存してください。</p></details>
+  </section>
+ </div>
+</main>
+<footer>記録はこの端末のブラウザに保存されます。LINEで他の人に見せたい場合は「LINE共有用スプレッドシート」を使ってください。</footer>
+<div id="modalWrap" class="modal-wrap"><div class="modal"><h2>記録の修正・イエロー設定</h2><form id="editForm"><label class="edit-yellow-check" for="eYellow"><input id="eYellow" type="checkbox"><span>🟨 このラップはイエロー中だった<small>チェックを付けると通常ペース平均から除外されます。後から解除もできます。</small></span></label><div class="modal-grid"><div class="field"><label>周回数</label><input id="eNo" type="number" min="1" required></div><div class="field"><label>ドライバー</label><select id="eDriver"></select></div></div><div class="field"><label>ラップタイム（空欄可）</label><input id="eLap" inputmode="numeric" placeholder="例 102345"></div><div class="field"><label>総合タイム（空欄可）</label><input id="eTotal" inputmode="decimal" placeholder="例 12:34.567"></div><div class="field"><label>メモ</label><input id="eNote"></div><div class="actions"><button class="primary" type="submit">保存して再計算</button><button type="button" id="cancelEdit">キャンセル</button><button type="button" class="danger" id="deleteRow">この記録を削除</button></div></form></div></div><script>
+'use strict';
+const KEY='kei_endurance_laplogger_v3';
+const defaultSessions=['予選','第一ヒート','第二ヒート'];
+function fresh(){return {version:3,current:'予選',drivers:[],selectedDriver:'',sessions:Object.fromEntries(defaultSessions.map(x=>[x,[]])),yellowFlags:Object.fromEntries(defaultSessions.map(x=>[x,[]]))};}
+function migrate(d){
+ if(!d||!d.sessions||typeof d.sessions!=='object'||Array.isArray(d.sessions))throw Error('形式違い');
+ const keys=Object.keys(d.sessions);
+ if(!keys.length||!keys.every(k=>Array.isArray(d.sessions[k])))throw Error('形式違い');
+ const yellowFlags=Object.fromEntries(keys.map(name=>{
+  const input=d.yellowFlags&&typeof d.yellowFlags==='object'&&!Array.isArray(d.yellowFlags)?d.yellowFlags[name]:null;
+  const entries=Array.isArray(input)?input.filter(x=>x&&typeof x==='object'&&typeof x.start==='string'&&Number.isFinite(Date.parse(x.start))).map(x=>({
+   id:String(x.id||x.start),start:x.start,end:typeof x.end==='string'&&Number.isFinite(Date.parse(x.end))?x.end:null,
+   startNo:Number.isSafeInteger(Number(x.startNo))&&Number(x.startNo)>0?Number(x.startNo):null,
+   endNo:Number.isSafeInteger(Number(x.endNo))&&Number(x.endNo)>0?Number(x.endNo):null,
+   driverStart:typeof x.driverStart==='string'?x.driverStart:'',driverEnd:typeof x.driverEnd==='string'?x.driverEnd:''
+  })):[];
+  return [name,entries];
+ }));
+ return {version:3,current:keys.includes(d.current)?d.current:keys[0],drivers:Array.isArray(d.drivers)?d.drivers:[],selectedDriver:d.selectedDriver||'',sessions:d.sessions,yellowFlags};
+}
+let state,initialLoadError='';
+try{
+ const stored=localStorage.getItem(KEY)||localStorage.getItem('kei_endurance_laplogger_v2');
+ const found=stored?JSON.parse(stored):null;
+ state=found&&found.sessions?migrate(found):fresh();
+}catch(e){state=fresh();initialLoadError='保存済みデータの読込エラー。元データを消去せずに保持しています：'+e.message;}
+let undoStack=[];let editingId=null;const $=id=>document.getElementById(id);
+const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function snap(){undoStack.push(JSON.stringify(state));if(undoStack.length>30)undoStack.shift();}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(state));$('saveState').textContent='● 自動保存済み';}catch(e){$('saveState').textContent='⚠ 保存できません：バックアップしてください';alert('保存領域への書き込みに失敗しました。バックアップを書き出してください。');}}
+function msg(t){$('flash').textContent=t;}
+function parseTime(t){if(t!==null&&t!==undefined&&/^\d{4,}$/.test(String(t).trim())){const z=String(t).trim();const ms=Number(z.slice(-3)),ss=Number(z.slice(-5,-3)||'0'),mm=Number(z.slice(0,-5)||'0');if(ss>=60&&z.length>=6)return NaN;return mm*60+ss+ms/1000;}if(t===null||t===undefined||String(t).trim()==='')return null;const parts=String(t).trim().replace(/，/g,':').split(':');if(parts.length>3)return NaN;let s=0;for(let i=0;i<parts.length;i++){const p=parts[i];if(!/^\d+(?:\.\d+)?$/.test(p))return NaN;if(i<parts.length-1&&(!/^\d+$/.test(p)||Number(p)>59&&i>0))return NaN;s=s*60+Number(p);}return s>0&&Number.isFinite(s)?Math.round(s*1000)/1000:NaN;}
+function fmt(s){if(s===null||!Number.isFinite(s))return '—';const m=Math.floor(s/60),v=(s-m*60).toFixed(3).padStart(6,'0');return m+':'+v;}
+function derive(arr){const ordered=[...arr].sort((a,b)=>a.no-b.no||a.id.localeCompare(b.id));let prev=null;return ordered.map(r=>{const lt=parseTime(r.lap),tt=parseTime(r.total),gap=prev?r.no-prev.no:0;let lap=lt,total=tt,flag='',warnings=[];if(Number.isNaN(lt)||Number.isNaN(tt))warnings.push('入力形式');if(!Number.isNaN(lt)&&!Number.isNaN(tt)){
+ if(lt!==null&&tt!==null&&prev&&gap===1&&prev.total!==null&&Math.abs(prev.total+lt-tt)>.01)warnings.push('タイム不一致');
+ if(lt===null&&tt!==null&&prev&&gap===1&&prev.total!==null){lap=Math.round((tt-prev.total)*1000)/1000;if(lap<=0)warnings.push('総合が逆転');}
+ if(tt===null&&lt!==null&&prev&&gap===1&&prev.total!==null)total=Math.round((prev.total+lt)*1000)/1000;
+ if(tt===null&&lt!==null&&!prev&&r.no===1)total=lt;
+ if(lt===null&&tt!==null&&!prev&&r.no===1)lap=tt;
+ }
+ if(prev&&gap>1)warnings.push(gap-1+'周欠測');if(prev&&gap===0)warnings.push('周回重複');if(prev&&gap<0)warnings.push('周回順序');if(!prev&&r.no>1)warnings.push('先頭'+(r.no-1)+'周不明');
+ if(lap!==null&&(!Number.isFinite(lap)||lap<=0))warnings.push('ラップ異常');if(total!==null&&(!Number.isFinite(total)||total<=0))warnings.push('総合異常');
+ if(!warnings.length)flag=(lap!==null&&total!==null?'OK':'部分記録');else flag=warnings.join('・');
+ const output={...r,derivedLap:lap,derivedTotal:total,flag,warn:warnings.length>0};prev={no:r.no,total:Number.isFinite(total)?total:null};return output;});}
+function refreshDrivers(){for(const el of [$('driver'),$('eDriver')]){const value=el=== $('driver')?state.selectedDriver:el.value;el.innerHTML='<option value="">（未指定）</option>'+state.drivers.map(d=>`<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`).join('');el.value=state.drivers.includes(value)?value:'';}}
+let showAllRows=false;
+function render(){const sess=state.current;const rows=derive(state.sessions[sess]);$('tabs').innerHTML=Object.keys(state.sessions).map(s=>`<button class="tab ${s===sess?'on':''}" data-session="${escapeHtml(s)}">${escapeHtml(s)}（${state.sessions[s].length}）</button>`).join('');refreshDrivers();$('mCount').textContent=rows.length?Math.max(...rows.map(r=>r.no)):'—';$('mRecords').textContent=rows.length;const valid=rows.filter(r=>r.derivedLap!==null&&Number.isFinite(r.derivedLap)&&r.derivedLap>0&&!r.warn);$('mBest').textContent=valid.length?fmt(Math.min(...valid.map(x=>x.derivedLap))):'—';$('mWarn').textContent=rows.filter(x=>x.warn).length;
+ const visibleRows=[...rows].reverse().slice(0,showAllRows?rows.length:8);
+ $('toggleAllRows').textContent=showAllRows?'最近8件だけ表示':'全'+rows.length+'件を表示';
+ $('toggleAllRows').hidden=rows.length<=8;
+ $('rows').innerHTML=rows.length?visibleRows.map(r=>`<tr class="${r.warn?'warn':''}"><td data-label="周回"><b>${r.no}周</b></td><td data-label="担当">${escapeHtml(r.driver||'未指定')}</td><td data-label="ラップ" class="num">${fmt(r.derivedLap)}${r.lap?'':' <span class="hint">自動</span>'}${r.yellowAtRecord?' <span class="yellow-pill">🟨 計測時</span>':''}</td><td data-label="総合" class="num">${fmt(r.derivedTotal)}${r.total?'':' <span class="hint">自動</span>'}</td><td data-label="状態" class="status ${r.warn?'bad':'ok'}">${escapeHtml(r.flag)}</td><td data-label="メモ">${escapeHtml(r.note)}</td><td data-label="修正"><button class="tiny" data-edit="${r.id}">編集</button></td></tr>`).join(''):'<tr><td colspan="7">まだ記録はありません。入力欄から追加してください。</td></tr>';
+ $('lapNo').placeholder='自動：'+(rows.length?Math.max(...rows.map(x=>x.no))+1:1);renderYellow();}
+$('toggleAllRows').onclick=()=>{showAllRows=!showAllRows;render();};
+
+function yellowEvents(session=state.current){
+ if(!state.yellowFlags||typeof state.yellowFlags!=='object')state.yellowFlags={};
+ if(!Array.isArray(state.yellowFlags[session]))state.yellowFlags[session]=[];
+ return state.yellowFlags[session];
+}
+function yellowActive(session=state.current){
+ return [...yellowEvents(session)].reverse().find(event=>event.end===null)||null;
+}
+function yellowNextLap(session=state.current){
+ const laps=state.sessions[session]||[];
+ return laps.length?Math.max(...laps.map(r=>Number(r.no)||0))+1:1;
+}
+function yellowClock(iso){
+ if(!iso||!Number.isFinite(Date.parse(iso)))return '—';
+ return new Date(iso).toLocaleTimeString('ja-JP',{hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+function yellowDuration(ms){
+ const total=Math.max(0,Math.floor(ms/1000));
+ return Math.floor(total/3600).toString().padStart(2,'0')+':'+Math.floor(total/60%60).toString().padStart(2,'0')+':'+(total%60).toString().padStart(2,'0');
+}
+function renderYellow(){
+ const ev=yellowActive(),events=yellowEvents();
+ const panel=$('yellowPanel'),label=$('yellowLabel'),button=$('yellowToggle');
+ panel.classList.toggle('active',!!ev);
+ if(ev){
+  label.textContent='🟨 イエロー中';
+  button.textContent='🟩 イエロー解除';
+  $('yellowSince').textContent='開始 '+yellowClock(ev.start)+' ／ 継続 '+yellowDuration(Date.now()-Date.parse(ev.start))+' ／ 開始時の次周 '+(ev.startNo??'—')+'周';
+ }else{
+  label.textContent='🟩 通常走行';
+  button.textContent='🟨 イエロー開始';
+  const last=events.at(-1);
+  $('yellowSince').textContent=last&&last.end?'前回解除 '+yellowClock(last.end):'イエローフラッグは出ていません';
+ }
+ $('yellowHistoryCount').textContent='（'+events.length+'件）';
+ $('yellowHistory').innerHTML=events.length?[...events].reverse().map((event,index)=>{
+  const duration=event.end?yellowDuration(Date.parse(event.end)-Date.parse(event.start)):yellowDuration(Date.now()-Date.parse(event.start));
+  const startLap=event.startNo?event.startNo+'周目の前後':'周回不明';
+  const endLap=event.endNo?event.endNo+'周目の前後':'';
+  return '<div class="yellow-event '+(!event.end?'active':'')+'"><strong>'+escapeHtml(!event.end?'🟨 イエロー継続中':'🟩 解除済み')+'　'+escapeHtml(yellowClock(event.start))+' → '+escapeHtml(event.end?yellowClock(event.end):'継続中')+'</strong><small>記録時間 '+escapeHtml(duration)+' ／ 開始目安 '+escapeHtml(startLap)+(event.end?' ／ 解除目安 '+escapeHtml(endLap):'')+'</small></div>';
+ }).join(''):'<p class="help">このセッションにイエロー履歴はありません。</p>';
+}
+$('yellowToggle').onclick=()=>{
+ const now=new Date().toISOString(),active=yellowActive();
+ snap();
+ if(active){
+  active.end=now;active.endNo=yellowNextLap();active.driverEnd=$('driver').value;
+  msg('🟩 イエローフラッグ解除：'+yellowClock(now));
+ }else{
+  yellowEvents().push({id:Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7),start:now,end:null,startNo:yellowNextLap(),endNo:null,driverStart:$('driver').value,driverEnd:''});
+  msg('🟨 イエローフラッグ開始：'+yellowClock(now));
+ }
+ persist();renderYellow();
+};
+setInterval(()=>{
+ if(yellowActive())renderYellow();
+},1000);
+
+function validateSessionName(name,old=''){name=name.trim();if(!name)return 'セッション名を入力してください';if(name.length>60)return '名前は60文字以内にしてください';if(name!==old&&Object.keys(state.sessions).includes(name))return '同じ名前があります';return ''; }
+let sessionEditorMode='create';
+function showSessionEditor(mode){sessionEditorMode=mode;$('sessionEditor').hidden=false;$('sessionEditorLabel').textContent=mode==='rename'?'セッション名を変更':'新しいセッション名';$('sessionName').value=mode==='rename'?state.current:'';$('sessionEditor').scrollIntoView({block:'nearest',behavior:'smooth'});$('sessionName').focus();}
+function hideSessionEditor(){$('sessionEditor').hidden=true;}
+$('newSession').onclick=()=>showSessionEditor('create');
+$('renameSession').onclick=()=>showSessionEditor('rename');
+$('cancelSessionEditor').onclick=hideSessionEditor;
+$('sessionForm').onsubmit=e=>{e.preventDefault();const name=$('sessionName').value.trim(),old=state.current,err=validateSessionName(name,sessionEditorMode==='rename'?old:'');if(err){alert(err);return;}if(sessionEditorMode==='create'){snap();state.sessions[name]=[];yellowEvents(name);state.current=name;msg('セッションを追加しました');}else if(name!==old){snap();const entries=Object.entries(state.sessions).map(([k,v])=>[k===old?name:k,v]);state.sessions=Object.fromEntries(entries);const flags=yellowEvents(old);delete state.yellowFlags[old];state.yellowFlags[name]=flags;state.current=name;msg('名前を変更しました');}hideSessionEditor();persist();render();};
+$('clearSession').onclick=()=>{
+ const name=state.current,qty=state.sessions[name].length,flagQty=yellowEvents(name).length;
+ if(!qty&&!flagQty){msg('「'+name+'」には消去する記録がありません');return;}
+ if(!confirm('「'+name+'」のラップ記録 '+qty+' 件とイエローフラッグ履歴 '+flagQty+' 件を消去しますか？\n\nセッション名とドライバー登録は残ります。ほかのセッションには影響しません。\n\n取り消しは「直前の操作を取り消す」で可能ですが、先にJSONバックアップをおすすめします。'))return;
+ snap();state.sessions[name]=[];state.yellowFlags[name]=[];persist();render();
+ msg('「'+name+'」の記録をクリアしました。直前の取り消しが可能です。');$('lap').focus();
+};
+$('deleteSession').onclick=()=>{const names=Object.keys(state.sessions);if(names.length===1)return alert('セッションは最低1つ必要です');const name=state.current,qty=state.sessions[name].length;if(!confirm('「'+name+'」を削除しますか？'+(qty?' 記録'+qty+'件も削除されます。':'' )+' イエローフラッグ履歴も削除されます。JSONバックアップを先に保存してください。'))return; snap();delete state.sessions[name];if(state.yellowFlags)delete state.yellowFlags[name];state.current=Object.keys(state.sessions)[0];persist();render();msg('セッションを削除しました。直前の取り消しが可能です');};
+$('tabs').addEventListener('click',e=>{const b=e.target.closest('[data-session]');if(!b)return;state.current=b.dataset.session;showAllRows=false;hideSessionEditor();persist();render();$('lap').focus();});
+$('addDriver').onclick=()=>{const d=$('newDriver').value.trim();if(!d)return; if(!state.drivers.includes(d)){snap();state.drivers.push(d);}state.selectedDriver=d;$('newDriver').value='';persist();render();msg('ドライバー「'+d+'」を選択しました');$('lap').focus();};
+$('driver').onchange=e=>{state.selectedDriver=e.target.value;persist();};
+function clearEntry(){$('lap').value='';$('total').value='';$('lapNo').value='';$('note').value='';$('lap').focus();}
+$('resetInputs').onclick=clearEntry;
+$('entryForm').onsubmit=e=>{e.preventDefault();const l=$('lap').value.trim(),t=$('total').value.trim(),n=$('lapNo').value.trim();if(!l&&!t){msg('ラップまたは総合タイムを入力してください');$('lap').focus();return;}if(Number.isNaN(parseTime(l))||Number.isNaN(parseTime(t))){msg('タイム形式を確認してください');return;}const recs=state.sessions[state.current];const auto=recs.length?Math.max(...recs.map(r=>r.no))+1:1;const no=n?Number(n):auto;if(!Number.isSafeInteger(no)||no<1){msg('周回数は1以上の整数で入力してください');return;}if(recs.some(x=>x.no===no)&&!confirm('同じ周回数の記録があります。重複して追加しますか？'))return;snap();recs.push({id:Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8),no,driver:$('driver').value,lap:l,total:t,note:$('note').value.trim(),yellowAtRecord:!!yellowActive(),created:new Date().toISOString()});state.selectedDriver=$('driver').value;persist();render();clearEntry();msg(state.current+' / '+no+'周を追加しました');};
+$('rows').onclick=e=>{const b=e.target.closest('[data-edit]');if(!b)return;const r=state.sessions[state.current].find(x=>x.id===b.dataset.edit);if(!r)return;editingId=r.id;refreshDrivers();$('eNo').value=r.no;$('eDriver').value=r.driver;$('eLap').value=r.lap;$('eTotal').value=r.total;$('eNote').value=r.note;$('eYellow').checked=r.yellowAtRecord===true;$('modalWrap').classList.add('open');$('eLap').focus();};
+function closeModal(){$('modalWrap').classList.remove('open');editingId=null;}
+$('cancelEdit').onclick=closeModal;
+$('modalWrap').addEventListener('click',e=>{if(e.target===$('modalWrap'))closeModal();});
+$('editForm').onsubmit=e=>{e.preventDefault();const r=state.sessions[state.current].find(x=>x.id===editingId);if(!r)return;const no=Number($('eNo').value),l=$('eLap').value.trim(),t=$('eTotal').value.trim();if(!Number.isSafeInteger(no)||no<1||(!l&&!t)||Number.isNaN(parseTime(l))||Number.isNaN(parseTime(t))){alert('周回数とタイムを確認してください。ラップか総合のどちらかが必要です。');return;}if(state.sessions[state.current].some(x=>x.id!==editingId&&x.no===no)&&!confirm('周回数が重複します。保存しますか？'))return;snap();Object.assign(r,{no,driver:$('eDriver').value,lap:l,total:t,note:$('eNote').value.trim(),yellowAtRecord:$('eYellow').checked});persist();closeModal();render();msg(no+'周の記録を修正しました。後続の自動計算も更新されています。');};
+$('deleteRow').onclick=()=>{const a=state.sessions[state.current],r=a.find(x=>x.id===editingId);if(!r)return;if(!confirm(r.no+'周の記録を削除しますか？ 取り消しで戻せます。'))return;snap();state.sessions[state.current]=a.filter(x=>x.id!==editingId);persist();closeModal();render();msg('記録を削除しました');};
+$('undo').onclick=()=>{if(!undoStack.length){msg('取り消せる操作はありません（ページを再読み込みすると履歴は消えます）');return;}state=JSON.parse(undoStack.pop());persist();render();msg('直前の変更を取り消しました');};
+function download(filename,content,mime){const blob=new Blob([content],{type:mime}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);}
+function stamp(){return new Date().toISOString().replace(/[:.]/g,'-');}
+$('backup').onclick=()=>{download('軽耐久_バックアップ_'+stamp()+'.json',JSON.stringify(state,null,2),'application/json');msg('バックアップを保存しました');};
+
+$('inlineRestoreFile').addEventListener('change',async e=>{
+ const input=e.target,file=input.files&&input.files[0];
+ if(!file)return;
+ const status=$('inlineRestoreStatus');
+ status.textContent='ファイルを確認中：'+file.name;
+ try{
+  if(!/\.json$/i.test(file.name))throw Error('JSON（.json）ファイルを選択してください。');
+  const src=typeof file.text==='function'?await file.text():await new Promise((resolve,reject)=>{
+    const fr=new FileReader();fr.onload=()=>resolve(String(fr.result));fr.onerror=()=>reject(Error('ファイルを読み込めませんでした'));fr.readAsText(file);
+  });
+  const incoming=migrate(JSON.parse(src));
+  for(const [name,records] of Object.entries(incoming.sessions)){
+   for(const rec of records){
+    if(!rec||typeof rec.id!=='string'||!Number.isSafeInteger(Number(rec.no))||Number(rec.no)<1)throw Error(name+'の周回記録が不正です。');
+   }
+  }
+  const n=Object.values(incoming.sessions).reduce((a,records)=>a+records.length,0);
+  const prev=Object.values(state.sessions).reduce((a,records)=>a+records.length,0);
+  const summary='復元ファイル：'+Object.keys(incoming.sessions).length+'セッション・'+n+'件\n現在：'+Object.keys(state.sessions).length+'セッション・'+prev+'件';
+  if(!confirm(summary+'\n\n現在の全記録を置き換えます。先にJSONバックアップを保存済みなら復元しますか？')){status.textContent='復元をキャンセルしました。';return;}
+  const existing=localStorage.getItem(KEY);
+  if(existing)localStorage.setItem(KEY+'_before_restore',existing);
+  const serialized=JSON.stringify(incoming);
+  localStorage.setItem(KEY,serialized);
+  if(localStorage.getItem(KEY)!==serialized)throw Error('保存データの検証に失敗しました。');
+  snap();
+  state=incoming;
+  render();
+  const actual=Object.values(state.sessions).reduce((a,records)=>a+records.length,0);
+  if(actual!==n)throw Error('画面で読み込んだ記録件数が一致しません。');
+  const done='✅ 復元成功：'+Object.keys(state.sessions).length+'セッション・'+actual+'件を、この画面に反映しました。';
+  status.textContent=done;msg(done);
+  $('inlineRestore').scrollIntoView({block:'nearest'});
+ }catch(err){status.textContent='❌ 復元エラー：'+err.message;alert(status.textContent);}
+ finally{input.value='';}
+});
+window.addEventListener('pageshow',e=>{
+ if(!e.persisted)return;
+ try{
+  const raw=localStorage.getItem(KEY);
+  if(!raw)return;
+  const incoming=migrate(JSON.parse(raw));
+  if(JSON.stringify(state)!==JSON.stringify(incoming)){state=incoming;render();}
+ }catch(err){$('inlineRestoreStatus').textContent='保存記録の再取得に失敗：'+err.message;}
+});
+
+function xesc(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');}
+function xcell(v,col,row,isNumber=false){if(v===null||v===undefined||v==='')return `<c r="${col}${row}"/>`;return isNumber?`<c r="${col}${row}"><v>${v}</v></c>`:`<c r="${col}${row}" t="inlineStr"><is><t>${xesc(v)}</t></is></c>`;}
+function xmlSheet(name){const data=derive(state.sessions[name]);const headers=['周回数','ドライバー','ラップタイム','総合タイム','状態','メモ','入力ラップ（元値）','入力総合（元値）','入力日時','計測時イエロー'];let xml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"/></sheetViews><cols><col min="1" max="1" width="12" customWidth="1"/><col min="2" max="2" width="18" customWidth="1"/><col min="3" max="4" width="18" customWidth="1"/><col min="5" max="5" width="22" customWidth="1"/><col min="6" max="6" width="26" customWidth="1"/><col min="7" max="9" width="24" customWidth="1"/></cols><sheetData>';xml+='<row r="1">'+headers.map((v,i)=>xcell(v,String.fromCharCode(65+i),1)).join('')+'</row>';data.forEach((r,i)=>{const values=[r.no,r.driver,fmt(r.derivedLap),fmt(r.derivedTotal),r.flag,r.note,r.lap,r.total,r.created||'',r.yellowAtRecord?'イエロー':'通常'];xml+=`<row r="${i+2}">`+values.map((v,j)=>xcell(v,String.fromCharCode(65+j),i+2,j===0)).join('')+'</row>';});return xml+'</sheetData><autoFilter ref="A1:J'+(data.length+1)+'"/></worksheet>';}
+// Offline XLSX: a valid uncompressed ZIP archive containing Office Open XML files.
+const enc=new TextEncoder();function crc32(bytes){let crc=0xffffffff;for(const b of bytes){crc^=b;for(let k=0;k<8;k++)crc=(crc>>>1)^((crc&1)?0xedb88320:0);}return (crc^0xffffffff)>>>0;}
+function zipFiles(files){const chunks=[],central=[];let offset=0;const u16=(v)=>[v&255,(v>>>8)&255],u32=v=>[v&255,(v>>>8)&255,(v>>>16)&255,(v>>>24)&255];for(const [path,content] of files){const name=enc.encode(path),data=enc.encode(content),crc=crc32(data);let local=Uint8Array.from([...u32(0x04034b50),...u16(20),...u16(0),...u16(0),...u16(0),...u16(0),...u32(crc),...u32(data.length),...u32(data.length),...u16(name.length),...u16(0)]);chunks.push(local,name,data);let head=Uint8Array.from([...u32(0x02014b50),...u16(20),...u16(20),...u16(0),...u16(0),...u16(0),...u16(0),...u32(crc),...u32(data.length),...u32(data.length),...u16(name.length),...u16(0),...u16(0),...u16(0),...u16(0),...u32(0),...u32(offset)]);central.push(head,name);offset+=local.length+name.length+data.length;}const cdlen=central.reduce((n,b)=>n+b.length,0),cdStart=offset;chunks.push(...central,Uint8Array.from([...u32(0x06054b50),...u16(0),...u16(0),...u16(files.length),...u16(files.length),...u32(cdlen),...u32(cdStart),...u16(0)]));return new Blob(chunks,{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});}
+function makeXlsx(){const names=Object.keys(state.sessions),sheetNames=[],used=new Set();for(const orig of names){let base=orig.replace(/[\\/*?:\[\]]/g,'_').slice(0,31)||'セッション',s=base,n=2;while(used.has(s.toLowerCase())){const suffix='_'+n++;s=base.slice(0,31-suffix.length)+suffix;}used.add(s.toLowerCase());sheetNames.push(s);}
+const files=[];files.push(['[Content_Types].xml','<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'+names.map((_,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')+'</Types>']);files.push(['_rels/.rels','<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>']);files.push(['xl/workbook.xml','<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>'+sheetNames.map((s,i)=>`<sheet name="${xesc(s)}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join('')+'</sheets></workbook>']);files.push(['xl/_rels/workbook.xml.rels','<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+names.map((_,i)=>`<Relationship Id="rId${i+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join('')+'</Relationships>']);names.forEach((name,i)=>files.push([`xl/worksheets/sheet${i+1}.xml`,xmlSheet(name)]));return zipFiles(files);}
+function makeShareXlsx(){
+  const rawNames=Object.keys(state.sessions);
+  const reserved=['総合結果','ドライバー別','ラップ推移','イエロー履歴'],used=new Set(reserved.map(s=>s.toLowerCase()));
+  function nameOf(orig){let base=String(orig).replace(/[\\/*?:\[\]]/g,'_').replace(/^'+|'+$/g,'').slice(0,31)||'セッション',s=base,n=2;while(used.has(s.toLowerCase())){const suffix='_'+n++;s=base.slice(0,31-suffix.length)+suffix;}used.add(s.toLowerCase());return s;}
+  const sessionSheetNames=rawNames.map(nameOf);
+  const stats=rawNames.map((name,i)=>{
+    const rows=derive(state.sessions[name]),valid=rows.filter(r=>!r.warn&&Number.isFinite(r.derivedLap)&&r.derivedLap>0);
+    const times=valid.map(r=>r.derivedLap),best=times.length?Math.min(...times):null,avg=times.length?times.reduce((a,b)=>a+b,0)/times.length:null;
+    const drivers=[...new Set(rows.map(r=>r.driver||'未指定'))];
+    return {name,sheet:sessionSheetNames[i],rows,valid,best,avg,drivers,finalLap:rows.length?Math.max(...rows.map(r=>r.no)):0,warnings:rows.filter(r=>r.warn).length};
+  });
+  const col=n=>{let s='';for(n++;n;n=Math.floor((n-1)/26))s=String.fromCharCode(65+(n-1)%26)+s;return s;};
+  const cell=(v,letter,r,style=0)=>{
+    const ref=letter+r;
+    if(v===null||v===undefined||v==='')return '<c r="'+ref+'" s="'+style+'"/>';
+    if(typeof v==='number'&&Number.isFinite(v))return '<c r="'+ref+'" s="'+style+'"><v>'+v+'</v></c>';
+    return '<c r="'+ref+'" s="'+style+'" t="inlineStr"><is><t xml:space="preserve">'+xesc(String(v))+'</t></is></c>';
+  };
+  const entry=(v,style=0)=>({value:v,style});
+  const colsDefault=[22,17,18,18,18,16,18,24,24];
+  function sheetXml(title,notice,headers,body,widths,hasDrawing=false){
+    const n=headers.length,last=col(n-1),end=Math.max(4,body.length+4);
+    const hcols=(widths||colsDefault).slice(0,n).map((w,i)=>'<col min="'+(i+1)+'" max="'+(i+1)+'" width="'+w+'" customWidth="1"/>').join('');
+    const view='<sheetViews><sheetView workbookViewId="0"><pane ySplit="4" topLeftCell="A5" activePane="bottomLeft" state="frozen"/><selection pane="bottomLeft" activeCell="A5" sqref="A5"/></sheetView></sheetViews>';
+    let out='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'+view+'<cols>'+hcols+'</cols><sheetData>';
+    out+='<row r="1" ht="33" customHeight="1">'+cell(title,'A',1,1)+'</row>';
+    out+='<row r="2" ht="27" customHeight="1">'+cell(notice,'A',2,3)+'</row><row r="3"/>';
+    out+='<row r="4" ht="28" customHeight="1">'+headers.map((t,i)=>cell(t,col(i),4,2)).join('')+'</row>';
+    body.forEach((values,i)=>{const row=i+5;out+='<row r="'+row+'" ht="23" customHeight="1">'+values.map((v,j)=>{let item=v&&typeof v==='object'&&Object.prototype.hasOwnProperty.call(v,'value')?v:entry(v);return cell(item.value,col(j),row,item.style||0);}).join('')+'</row>';});
+    out+='</sheetData><mergeCells count="2"><mergeCell ref="A1:'+last+'1"/><mergeCell ref="A2:'+last+'2"/></mergeCells><autoFilter ref="A4:'+last+end+'"/>';
+    if(hasDrawing)out+='<drawing r:id="rId1"/>';
+    return out+'</worksheet>';
+  }
+  const overview=stats.map(s=>[entry(s.name,7),s.rows.length,s.finalLap,fmt(s.best),fmt(s.avg),entry(s.warnings,s.warnings?5:0),s.drivers.filter(d=>d!=='未指定').length,s.valid.length]);
+  const driverRows=[];
+  stats.forEach(s=>s.drivers.forEach(driver=>{
+    const rows=s.rows.filter(r=>(r.driver||'未指定')===driver);
+    const good=rows.filter(r=>!r.warn&&Number.isFinite(r.derivedLap)&&r.derivedLap>0).map(r=>r.derivedLap);
+    const best=good.length?Math.min(...good):null,avg=good.length?good.reduce((a,b)=>a+b,0)/good.length:null;
+    driverRows.push([entry(s.name,7),driver,rows.length,good.length,fmt(best),fmt(avg),entry(rows.filter(r=>r.warn).length,rows.some(r=>r.warn)?5:0),entry(best,4),entry(avg,4)]);
+  }));
+  const maxLap=stats.reduce((m,s)=>Math.max(m,s.finalLap),0);
+  const plotted=Math.min(maxLap,2000),plotColumns=stats.map(s=>new Map(s.rows.filter(r=>!r.warn&&Number.isFinite(r.derivedLap)&&r.derivedLap>0).map(r=>[r.no,r.derivedLap])));
+  const trendRows=Array.from({length:plotted},(_,i)=>[i+1,...plotColumns.map(m=>entry(m.has(i+1)?m.get(i+1):null,4))]);
+  const titles=['総合結果','ドライバー別','ラップ推移','イエロー履歴',...sessionSheetNames],sheets=[];
+  sheets.push(sheetXml('🏁 軽耐久｜総合結果','LINE共有用：Googleドライブにアップロード → Googleスプレッドシートで開く → 閲覧リンクを送信',['セッション','記録件数','最終周','ベスト','平均','要確認','ドライバー数','有効ラップ'],overview,[25,14,14,17,17,14,16,15],plotted>0));
+  sheets.push(sheetXml('ドライバー別 成績','有効ラップ＝警告なし・タイムが確定した周回。平均にはピット周回が含まれる場合があります。',['セッション','ドライバー','記録数','有効ラップ','ベスト','平均','要確認','ベスト秒','平均秒'],driverRows,[23,22,15,16,17,17,15,17,17]));
+  sheets.push(sheetXml('ラップタイム推移（秒）',plotted<maxLap?'グラフ用データは先頭2000周まで。全記録は各セッションのシートをご確認ください。':'各列がセッションの1周ごとの秒数です。欠測・要確認の周回は空欄になります。',['周回',...rawNames],trendRows,[12,...rawNames.map(()=>18)]));
+  const yellowRecords=[];
+  stats.forEach(s=>(state.yellowFlags&&state.yellowFlags[s.name]||[]).forEach((ev,i)=>{
+    const startMs=Date.parse(ev.start),endMs=ev.end?Date.parse(ev.end):null;
+    const duration=endMs!==null&&Number.isFinite(endMs)&&Number.isFinite(startMs)?Math.max(0,Math.round((endMs-startMs)/1000)):null;
+    yellowRecords.push([s.name,i+1,ev.start,ev.end||'継続中',ev.startNo||'—',ev.endNo||'—',duration!==null?entry(duration,4):'—',ev.end?'解除済み':'継続中']);
+  }));
+  sheets.push(sheetXml('イエローフラッグ履歴','開始・解除ボタンを押した端末の時刻です。周回番号は押下時の次周目安で、正確な周回中の位置ではありません。',['セッション','回数','開始時刻','解除時刻','開始目安周','解除目安周','継続秒','状態'],yellowRecords,[23,12,29,29,17,17,16,16]));
+  stats.forEach(s=>{
+    const body=s.rows.map(r=>[r.no,r.driver||'未指定',fmt(r.derivedLap),entry(Number.isFinite(r.derivedLap)?r.derivedLap:null,4),fmt(r.derivedTotal),entry(Number.isFinite(r.derivedTotal)?r.derivedTotal:null,4),entry(r.flag,r.warn?5:6),r.note||'',r.created||'',r.yellowAtRecord?'イエロー':'通常']);
+    sheets.push(sheetXml(s.name+'｜全ラップ','周回・ドライバー・ラップ・総合タイム・メモの保存時点の記録です。要確認の周回は黄色。',['周回','ドライバー','ラップ','ラップ秒','総合','総合秒','状態','メモ','記録日時','計測時イエロー'],body,[13,21,18,17,18,18,23,29,28,19]));
+  });
+  const styles='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'+
+   '<numFmts count="1"><numFmt numFmtId="164" formatCode="0.000"/></numFmts>'+
+   '<fonts count="3"><font><sz val="11"/><name val="Yu Gothic"/></font><font><b/><color rgb="FFFFFFFF"/><sz val="14"/><name val="Yu Gothic"/></font><font><b/><color rgb="FF163054"/><sz val="11"/><name val="Yu Gothic"/></font></fonts>'+
+   '<fills count="6"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF10213E"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FF1757B8"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFEAF2FE"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFFFF1CB"/><bgColor indexed="64"/></patternFill></fill></fills>'+
+   '<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>'+
+   '<cellXfs count="8"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"/><xf numFmtId="0" fontId="1" fillId="3" borderId="0" xfId="0" applyFont="1" applyFill="1"/><xf numFmtId="0" fontId="2" fillId="4" borderId="0" xfId="0" applyFont="1" applyFill="1"/><xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="0" fontId="0" fillId="5" borderId="0" xfId="0" applyFill="1"/><xf numFmtId="0" fontId="2" fillId="4" borderId="0" xfId="0" applyFill="1"/><xf numFmtId="0" fontId="2" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs>'+
+   '<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>';
+  const n=sheets.length,files=[];
+  const typeChart=plotted>0?'<Override PartName="/xl/drawings/drawing1.xml" ContentType="application/vnd.openxmlformats-officedocument.drawing+xml"/><Override PartName="/xl/charts/chart1.xml" ContentType="application/vnd.openxmlformats-officedocument.drawingml.chart+xml"/>':'';
+  files.push(['[Content_Types].xml','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'+sheets.map((_,i)=>'<Override PartName="/xl/worksheets/sheet'+(i+1)+'.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>').join('')+typeChart+'</Types>']);
+  files.push(['_rels/.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>']);
+  files.push(['xl/workbook.xml','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>'+titles.map((title,i)=>'<sheet name="'+xesc(title)+'" sheetId="'+(i+1)+'" r:id="rId'+(i+1)+'"/>').join('')+'</sheets></workbook>']);
+  files.push(['xl/_rels/workbook.xml.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+sheets.map((_,i)=>'<Relationship Id="rId'+(i+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet'+(i+1)+'.xml"/>').join('')+'<Relationship Id="rId'+(n+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>']);
+  files.push(['xl/styles.xml',styles]);
+  sheets.forEach((xml,i)=>files.push(['xl/worksheets/sheet'+(i+1)+'.xml',xml]));
+  if(plotted>0){
+    const maxChart=Math.min(8,stats.length),pEnd=plotted+4,colors=['2157B8','DA5F36','27946E','8B5FBF','C49413','31A9B9','B34D7C','65758D'];
+    const axisPoints=Array.from({length:plotted},(_,i)=>'<c:pt idx="'+i+'"><c:v>'+(i+1)+'</c:v></c:pt>').join('');
+    const series=stats.slice(0,maxChart).map((s,i)=>{
+      const letter=col(i+1),values=plotColumns[i];
+      const valuePoints=Array.from({length:plotted},(_,ix)=>values.has(ix+1)?'<c:pt idx="'+ix+'"><c:v>'+values.get(ix+1)+'</c:v></c:pt>':'').join('');
+      return '<c:ser><c:idx val="'+i+'"/><c:order val="'+i+'"/><c:tx><c:strRef><c:f>\'ラップ推移\'!$'+letter+'$4</c:f><c:strCache><c:ptCount val="1"/><c:pt idx="0"><c:v>'+xesc(s.name)+'</c:v></c:pt></c:strCache></c:strRef></c:tx><c:spPr><a:ln w="25000"><a:solidFill><a:srgbClr val="'+colors[i]+'"/></a:solidFill></a:ln></c:spPr><c:marker><c:symbol val="none"/></c:marker><c:cat><c:numRef><c:f>\'ラップ推移\'!$A$5:$A$'+pEnd+'</c:f><c:numCache><c:formatCode>0</c:formatCode><c:ptCount val="'+plotted+'"/>'+axisPoints+'</c:numCache></c:numRef></c:cat><c:val><c:numRef><c:f>\'ラップ推移\'!$'+letter+'$5:$'+letter+'$'+pEnd+'</c:f><c:numCache><c:formatCode>0.000</c:formatCode><c:ptCount val="'+plotted+'"/>'+valuePoints+'</c:numCache></c:numRef></c:val><c:smooth val="0"/></c:ser>';
+    }).join('');
+    const chart='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><c:chartSpace xmlns:c="http://schemas.openxmlformats.org/drawingml/2006/chart" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><c:chart><c:autoTitleDeleted val="1"/><c:plotArea><c:layout/><c:lineChart><c:grouping val="standard"/><c:varyColors val="0"/>'+series+'<c:axId val="5001"/><c:axId val="5002"/></c:lineChart><c:catAx><c:axId val="5001"/><c:scaling><c:orientation val="minMax"/></c:scaling><c:delete val="0"/><c:axPos val="b"/><c:tickLblPos val="nextTo"/><c:crossAx val="5002"/><c:crosses val="autoZero"/><c:auto val="1"/><c:lblAlgn val="ctr"/><c:lblOffset val="100"/></c:catAx><c:valAx><c:axId val="5002"/><c:scaling><c:orientation val="minMax"/></c:scaling><c:delete val="0"/><c:axPos val="l"/><c:majorGridlines/><c:numFmt formatCode="0.0" sourceLinked="0"/><c:tickLblPos val="nextTo"/><c:crossAx val="5001"/><c:crosses val="autoZero"/><c:crossBetween val="between"/></c:valAx></c:plotArea><c:legend><c:legendPos val="b"/><c:layout/></c:legend><c:plotVisOnly val="1"/><c:dispBlanksAs val="gap"/></c:chart></c:chartSpace>';
+    const startRow=Math.max(9,overview.length+7),endRow=startRow+18;
+    const marker=(c,r)=>'<xdr:'+c+'><xdr:col>0</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>'+r+'</xdr:row><xdr:rowOff>0</xdr:rowOff></xdr:'+c+'>';
+    const to='<xdr:to><xdr:col>9</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>'+endRow+'</xdr:row><xdr:rowOff>0</xdr:rowOff></xdr:to>';
+    const drawing='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><xdr:wsDr xmlns:xdr="http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:c="http://schemas.openxmlformats.org/drawingml/2006/chart" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><xdr:twoCellAnchor>'+marker('from',startRow)+to+'<xdr:graphicFrame macro=""><xdr:nvGraphicFramePr><xdr:cNvPr id="2" name="ラップ推移グラフ"/><xdr:cNvGraphicFramePr/></xdr:nvGraphicFramePr><xdr:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/></xdr:xfrm><a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/chart"><c:chart r:id="rId1"/></a:graphicData></a:graphic></xdr:graphicFrame><xdr:clientData/></xdr:twoCellAnchor></xdr:wsDr>';
+    files.push(['xl/worksheets/_rels/sheet1.xml.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing" Target="../drawings/drawing1.xml"/></Relationships>']);
+    files.push(['xl/drawings/drawing1.xml',drawing]);
+    files.push(['xl/drawings/_rels/drawing1.xml.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart" Target="../charts/chart1.xml"/></Relationships>']);
+    files.push(['xl/charts/chart1.xml',chart]);
+  }
+  return zipFiles(files);
+}
+$('exportShareXlsx').onclick=()=>{try{const blob=makeShareXlsx(),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='軽耐久_LINE共有用_'+stamp()+'.xlsx';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);msg('共有用Excelを保存しました。Googleドライブにアップロードして共有リンクをLINEで送ってください。');}catch(err){alert('共有用シートの出力に失敗しました: '+err.message);}};
+$('exportExcel').onclick=()=>{try{const blob=makeXlsx(),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='軽耐久_ラップ記録_'+stamp()+'.xlsx';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);msg(Object.keys(state.sessions).length+'セッションをExcel（.xlsx）に出力しました');}catch(err){alert('Excel出力に失敗しました: '+err.message);}};
+render();if(initialLoadError){$('inlineRestoreStatus').textContent=initialLoadError;$('saveState').textContent='⚠ 読込エラー';}if(new URLSearchParams(location.search).has('restored')){$('dataMenu').open=true;const n=Object.values(state.sessions).reduce((a,rows)=>a+rows.length,0);$('inlineRestoreStatus').textContent='別の復元ページから戻りました。現在この画面で読み込めた記録は'+Object.keys(state.sessions).length+'セッション・'+n+'件です。違う場合は下の欄からJSONを直接選択してください。';}if(location.protocol==='file:'){$('saveState').textContent='HTMLファイルを直接開いています。Safariで公開URLを開くことを推奨';}else{$('lap').focus();}
+</script></body></html>
