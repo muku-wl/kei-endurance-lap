@@ -396,7 +396,8 @@ function makeShareXlsx(){
     out+='<row r="2" ht="27" customHeight="1">'+cell(notice,'A',2,3)+'</row><row r="3"/>';
     out+='<row r="4" ht="28" customHeight="1">'+headers.map((t,i)=>cell(t,col(i),4,2)).join('')+'</row>';
     body.forEach((values,i)=>{const row=i+5;out+='<row r="'+row+'" ht="23" customHeight="1">'+values.map((v,j)=>{let item=v&&typeof v==='object'&&Object.prototype.hasOwnProperty.call(v,'value')?v:entry(v);return cell(item.value,col(j),row,item.style||0);}).join('')+'</row>';});
-    out+='</sheetData><mergeCells count="2"><mergeCell ref="A1:'+last+'1"/><mergeCell ref="A2:'+last+'2"/></mergeCells><autoFilter ref="A4:'+last+end+'"/>';
+    // SpreadsheetML CT_Worksheet requires autoFilter before mergeCells. Reversed order triggers Excel repair.
+    out+='</sheetData><autoFilter ref="A4:'+last+end+'"/><mergeCells count="2"><mergeCell ref="A1:'+last+'1"/><mergeCell ref="A2:'+last+'2"/></mergeCells>';
     if(hasDrawing)out+='<drawing r:id="rId1"/>';
     return out+'</worksheet>';
   }
