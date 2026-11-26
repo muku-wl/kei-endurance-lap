@@ -78,6 +78,7 @@ footer{padding:17px 12px}
 @media(max-width:650px){.yellow-panel{gap:9px;padding:11px}.yellow-state strong{font-size:17px}.yellow-panel.active .yellow-state strong{font-size:19px}.yellow-toggle{font-size:13px;padding:11px 10px;min-height:47px}}
 
 .edit-yellow-check{display:flex;gap:12px;align-items:center;border:2px solid #e5c46a;background:#fff9e6;border-radius:11px;padding:13px 11px;margin:12px 0 17px;cursor:pointer;font-weight:750;color:#654600}.edit-yellow-check input[type=checkbox]{width:22px;height:22px;flex:none;accent-color:#d79b00;cursor:pointer}.edit-yellow-check span{line-height:1.4}.edit-yellow-check small{display:block;margin-top:5px;font-size:12px;font-weight:400;color:#7b6750;line-height:1.45}
+.modal .edit-yellow-check{margin-top:0;margin-bottom:17px;position:sticky;top:-22px;z-index:2;box-shadow:0 3px 11px #9e7b161a}.modal .edit-yellow-check input[type=checkbox]{width:26px;height:26px;min-height:26px;min-width:26px}.modal h2{font-size:19px;margin-bottom:13px}
 </style></head><body>
 <header class="app-header">
  <div><h1>🏁 軽耐久｜ラップ記録</h1><small>レース中はラップを入力するだけ。記録はこのブラウザに自動保存されます。</small></div>
@@ -166,7 +167,7 @@ footer{padding:17px 12px}
  </div>
 </main>
 <footer>記録はこの端末のブラウザに保存されます。LINEで他の人に見せたい場合は「LINE共有用スプレッドシート」を使ってください。</footer>
-<div id="modalWrap" class="modal-wrap"><div class="modal"><h2>記録の修正</h2><form id="editForm"><div class="modal-grid"><div class="field"><label>周回数</label><input id="eNo" type="number" min="1" required></div><div class="field"><label>ドライバー</label><select id="eDriver"></select></div></div><div class="field"><label>ラップタイム（空欄可）</label><input id="eLap" inputmode="numeric" placeholder="例 102345"></div><div class="field"><label>総合タイム（空欄可）</label><input id="eTotal" inputmode="decimal" placeholder="例 12:34.567"></div><div class="field"><label>メモ</label><input id="eNote"></div><label class="edit-yellow-check" for="eYellow"><input id="eYellow" type="checkbox"><span>🟨 このラップはイエロー中だった<small>チェックを付けると詳細分析の通常ペース平均から除外されます</small></span></label><div class="actions"><button class="primary" type="submit">保存して再計算</button><button type="button" id="cancelEdit">キャンセル</button><button type="button" class="danger" id="deleteRow">この記録を削除</button></div></form></div></div><script>
+<div id="modalWrap" class="modal-wrap"><div class="modal"><h2>記録の修正・イエロー設定</h2><form id="editForm"><label class="edit-yellow-check" for="eYellow"><input id="eYellow" type="checkbox"><span>🟨 このラップはイエロー中だった<small>チェックを付けると通常ペース平均から除外されます。後から解除もできます。</small></span></label><div class="modal-grid"><div class="field"><label>周回数</label><input id="eNo" type="number" min="1" required></div><div class="field"><label>ドライバー</label><select id="eDriver"></select></div></div><div class="field"><label>ラップタイム（空欄可）</label><input id="eLap" inputmode="numeric" placeholder="例 102345"></div><div class="field"><label>総合タイム（空欄可）</label><input id="eTotal" inputmode="decimal" placeholder="例 12:34.567"></div><div class="field"><label>メモ</label><input id="eNote"></div><div class="actions"><button class="primary" type="submit">保存して再計算</button><button type="button" id="cancelEdit">キャンセル</button><button type="button" class="danger" id="deleteRow">この記録を削除</button></div></form></div></div><script>
 'use strict';
 const KEY='kei_endurance_laplogger_v3';
 const defaultSessions=['予選','第一ヒート','第二ヒート'];
