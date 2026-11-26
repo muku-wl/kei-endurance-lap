@@ -57,6 +57,26 @@ footer{padding:17px 12px}
 @media(max-width:850px){.main{grid-template-columns:1fr}.records-panel .metrics{grid-template-columns:repeat(4,minmax(0,1fr))}.utility-hint{display:none}.records-panel .scroll{max-height:none}}
 @media(max-width:650px){.app-header{padding:13px}.app-header h1{font-size:19px}.app-header small{font-size:11px}.app-page{padding:0 9px}.page-utility .analysis-link{width:100%}.records-panel .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.records-panel table{min-width:0}.data-actions>*{flex:1;min-width:138px}.entry-panel .big{font-size:32px}.session-bar{padding:12px}.record-heading h2{font-size:17px}.records-panel .scroll{max-height:none}.entry-panel,.records-panel{padding:13px}}
 
+
+.yellow-panel{border:2px solid #b5d4c6;background:#eef8f1;border-radius:13px;padding:14px;display:flex;gap:12px;align-items:center;justify-content:space-between;margin:0 0 11px}
+.yellow-panel.active{background:#fff0a8;border-color:#e8ab1a;box-shadow:0 0 0 2px #edb93528}
+.yellow-state{display:flex;flex-direction:column;gap:5px;min-width:0}
+.yellow-state strong{font-size:19px;color:#16634c;line-height:1.2}
+.yellow-panel.active .yellow-state strong{color:#704300;font-size:22px}
+.yellow-state small{color:#62716c;font-size:12px;line-height:1.5}
+.yellow-panel.active .yellow-state small{color:#805700;font-weight:650}
+.yellow-toggle{background:#f2cf55;color:#483000;border:1px solid #b98d17;font-weight:850;padding:13px 14px;min-height:49px;white-space:nowrap}
+.yellow-panel.active .yellow-toggle{background:#175f43;color:white;border-color:#175f43}
+.yellow-history-details{margin:0 0 17px;border:1px solid #e3e7ed;border-radius:10px;background:#fcfdff}
+.yellow-history-details>summary{padding:11px 13px;font-size:13px;color:#576783}
+.yellow-history{padding:0 12px 11px;font-size:13px;line-height:1.55}
+.yellow-event{padding:10px 2px;border-top:1px solid #e6edf4}
+.yellow-event strong{display:block;color:#62450c}
+.yellow-event small{display:block;color:#6b7790;margin-top:3px}
+.yellow-event.active strong{color:#9a5700}
+.yellow-pill{display:inline-block;padding:2px 6px;border-radius:6px;background:#fff0b3;color:#805000;font-size:11px;font-weight:800;vertical-align:middle;margin-left:4px}
+@media(max-width:650px){.yellow-panel{gap:9px;padding:11px}.yellow-state strong{font-size:17px}.yellow-panel.active .yellow-state strong{font-size:19px}.yellow-toggle{font-size:13px;padding:11px 10px;min-height:47px}}
+
 </style></head><body>
 <header class="app-header">
  <div><h1>🏁 軽耐久｜ラップ記録</h1><small>レース中はラップを入力するだけ。記録はこのブラウザに自動保存されます。</small></div>
@@ -84,7 +104,18 @@ footer{padding:17px 12px}
  <div class="main">
   <section class="panel entry-panel">
    <div class="section-heading"><div><h2>ラップを記録</h2><p>毎周の操作はここだけ</p></div><span class="step-marker">入力</span></div>
-   <form id="entryForm">
+   <section id="yellowPanel" class="yellow-panel" aria-label="イエローフラッグ状態">
+ <div class="yellow-state">
+  <strong id="yellowLabel">🟩 通常走行</strong>
+  <small id="yellowSince">イエローフラッグは出ていません</small>
+ </div>
+ <button type="button" id="yellowToggle" class="yellow-toggle">🟨 イエロー開始</button>
+ </section>
+ <details class="yellow-history-details">
+ <summary>🕒 イエローフラッグ履歴 <span id="yellowHistoryCount">（0件）</span></summary>
+ <div id="yellowHistory" class="yellow-history"><p class="help">まだ記録はありません。</p></div>
+ </details>
+ <form id="entryForm">
     <div class="field"><label for="driver">ドライバー</label><select id="driver"></select></div>
     <div class="field"><label for="lap">ラップタイム</label><input id="lap" class="big" autocomplete="off" inputmode="numeric" placeholder="102345 / 59876"><p class="help">数字のみOK：102345 → 1:02.345 ／ 59876 → 59.876</p></div>
     <div class="field"><label for="note">メモ（任意）</label><input id="note" placeholder="ピットイン・交代・計測ミスなど"></div>
@@ -138,8 +169,23 @@ footer{padding:17px 12px}
 'use strict';
 const KEY='kei_endurance_laplogger_v3';
 const defaultSessions=['予選','第一ヒート','第二ヒート'];
-function fresh(){return {version:3,current:'予選',drivers:[],selectedDriver:'',sessions:Object.fromEntries(defaultSessions.map(x=>[x,[]]))};}
-function migrate(d){if(!d||!d.sessions||typeof d.sessions!=='object'||Array.isArray(d.sessions))throw Error('形式違い');const keys=Object.keys(d.sessions);if(!keys.length||!keys.every(k=>Array.isArray(d.sessions[k])))throw Error('形式違い');return {version:3,current:keys.includes(d.current)?d.current:keys[0],drivers:Array.isArray(d.drivers)?d.drivers:[],selectedDriver:d.selectedDriver||'',sessions:d.sessions};}
+function fresh(){return {version:3,current:'予選',drivers:[],selectedDriver:'',sessions:Object.fromEntries(defaultSessions.map(x=>[x,[]])),yellowFlags:Object.fromEntries(defaultSessions.map(x=>[x,[]]))};}
+function migrate(d){
+ if(!d||!d.sessions||typeof d.sessions!=='object'||Array.isArray(d.sessions))throw Error('形式違い');
+ const keys=Object.keys(d.sessions);
+ if(!keys.length||!keys.every(k=>Array.isArray(d.sessions[k])))throw Error('形式違い');
+ const yellowFlags=Object.fromEntries(keys.map(name=>{
+  const input=d.yellowFlags&&typeof d.yellowFlags==='object'&&!Array.isArray(d.yellowFlags)?d.yellowFlags[name]:null;
+  const entries=Array.isArray(input)?input.filter(x=>x&&typeof x==='object'&&typeof x.start==='string'&&Number.isFinite(Date.parse(x.start))).map(x=>({
+   id:String(x.id||x.start),start:x.start,end:typeof x.end==='string'&&Number.isFinite(Date.parse(x.end))?x.end:null,
+   startNo:Number.isSafeInteger(Number(x.startNo))&&Number(x.startNo)>0?Number(x.startNo):null,
+   endNo:Number.isSafeInteger(Number(x.endNo))&&Number(x.endNo)>0?Number(x.endNo):null,
+   driverStart:typeof x.driverStart==='string'?x.driverStart:'',driverEnd:typeof x.driverEnd==='string'?x.driverEnd:''
+  })):[];
+  return [name,entries];
+ }));
+ return {version:3,current:keys.includes(d.current)?d.current:keys[0],drivers:Array.isArray(d.drivers)?d.drivers:[],selectedDriver:d.selectedDriver||'',sessions:d.sessions,yellowFlags};
+}
 let state,initialLoadError='';
 try{
  const stored=localStorage.getItem(KEY)||localStorage.getItem('kei_endurance_laplogger_v2');
@@ -170,9 +216,68 @@ function render(){const sess=state.current;const rows=derive(state.sessions[sess
  const visibleRows=[...rows].reverse().slice(0,showAllRows?rows.length:8);
  $('toggleAllRows').textContent=showAllRows?'最近8件だけ表示':'全'+rows.length+'件を表示';
  $('toggleAllRows').hidden=rows.length<=8;
- $('rows').innerHTML=rows.length?visibleRows.map(r=>`<tr class="${r.warn?'warn':''}"><td data-label="周回"><b>${r.no}周</b></td><td data-label="担当">${escapeHtml(r.driver||'未指定')}</td><td data-label="ラップ" class="num">${fmt(r.derivedLap)}${r.lap?'':' <span class="hint">自動</span>'}</td><td data-label="総合" class="num">${fmt(r.derivedTotal)}${r.total?'':' <span class="hint">自動</span>'}</td><td data-label="状態" class="status ${r.warn?'bad':'ok'}">${escapeHtml(r.flag)}</td><td data-label="メモ">${escapeHtml(r.note)}</td><td data-label="修正"><button class="tiny" data-edit="${r.id}">編集</button></td></tr>`).join(''):'<tr><td colspan="7">まだ記録はありません。入力欄から追加してください。</td></tr>';
- $('lapNo').placeholder='自動：'+(rows.length?Math.max(...rows.map(x=>x.no))+1:1);}
+ $('rows').innerHTML=rows.length?visibleRows.map(r=>`<tr class="${r.warn?'warn':''}"><td data-label="周回"><b>${r.no}周</b></td><td data-label="担当">${escapeHtml(r.driver||'未指定')}</td><td data-label="ラップ" class="num">${fmt(r.derivedLap)}${r.lap?'':' <span class="hint">自動</span>'}${r.yellowAtRecord?' <span class="yellow-pill">🟨 計測時</span>':''}</td><td data-label="総合" class="num">${fmt(r.derivedTotal)}${r.total?'':' <span class="hint">自動</span>'}</td><td data-label="状態" class="status ${r.warn?'bad':'ok'}">${escapeHtml(r.flag)}</td><td data-label="メモ">${escapeHtml(r.note)}</td><td data-label="修正"><button class="tiny" data-edit="${r.id}">編集</button></td></tr>`).join(''):'<tr><td colspan="7">まだ記録はありません。入力欄から追加してください。</td></tr>';
+ $('lapNo').placeholder='自動：'+(rows.length?Math.max(...rows.map(x=>x.no))+1:1);renderYellow();}
 $('toggleAllRows').onclick=()=>{showAllRows=!showAllRows;render();};
+
+function yellowEvents(session=state.current){
+ if(!state.yellowFlags||typeof state.yellowFlags!=='object')state.yellowFlags={};
+ if(!Array.isArray(state.yellowFlags[session]))state.yellowFlags[session]=[];
+ return state.yellowFlags[session];
+}
+function yellowActive(session=state.current){
+ return [...yellowEvents(session)].reverse().find(event=>event.end===null)||null;
+}
+function yellowNextLap(session=state.current){
+ const laps=state.sessions[session]||[];
+ return laps.length?Math.max(...laps.map(r=>Number(r.no)||0))+1:1;
+}
+function yellowClock(iso){
+ if(!iso||!Number.isFinite(Date.parse(iso)))return '—';
+ return new Date(iso).toLocaleTimeString('ja-JP',{hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+function yellowDuration(ms){
+ const total=Math.max(0,Math.floor(ms/1000));
+ return Math.floor(total/3600).toString().padStart(2,'0')+':'+Math.floor(total/60%60).toString().padStart(2,'0')+':'+(total%60).toString().padStart(2,'0');
+}
+function renderYellow(){
+ const ev=yellowActive(),events=yellowEvents();
+ const panel=$('yellowPanel'),label=$('yellowLabel'),button=$('yellowToggle');
+ panel.classList.toggle('active',!!ev);
+ if(ev){
+  label.textContent='🟨 イエロー中';
+  button.textContent='🟩 イエロー解除';
+  $('yellowSince').textContent='開始 '+yellowClock(ev.start)+' ／ 継続 '+yellowDuration(Date.now()-Date.parse(ev.start))+' ／ 開始時の次周 '+(ev.startNo??'—')+'周';
+ }else{
+  label.textContent='🟩 通常走行';
+  button.textContent='🟨 イエロー開始';
+  const last=events.at(-1);
+  $('yellowSince').textContent=last&&last.end?'前回解除 '+yellowClock(last.end):'イエローフラッグは出ていません';
+ }
+ $('yellowHistoryCount').textContent='（'+events.length+'件）';
+ $('yellowHistory').innerHTML=events.length?[...events].reverse().map((event,index)=>{
+  const duration=event.end?yellowDuration(Date.parse(event.end)-Date.parse(event.start)):yellowDuration(Date.now()-Date.parse(event.start));
+  const startLap=event.startNo?event.startNo+'周目の前後':'周回不明';
+  const endLap=event.endNo?event.endNo+'周目の前後':'';
+  return '<div class="yellow-event '+(!event.end?'active':'')+'"><strong>'+escapeHtml(!event.end?'🟨 イエロー継続中':'🟩 解除済み')+'　'+escapeHtml(yellowClock(event.start))+' → '+escapeHtml(event.end?yellowClock(event.end):'継続中')+'</strong><small>記録時間 '+escapeHtml(duration)+' ／ 開始目安 '+escapeHtml(startLap)+(event.end?' ／ 解除目安 '+escapeHtml(endLap):'')+'</small></div>';
+ }).join(''):'<p class="help">このセッションにイエロー履歴はありません。</p>';
+}
+$('yellowToggle').onclick=()=>{
+ const now=new Date().toISOString(),active=yellowActive();
+ snap();
+ if(active){
+  active.end=now;active.endNo=yellowNextLap();active.driverEnd=$('driver').value;
+  msg('🟩 イエローフラッグ解除：'+yellowClock(now));
+ }else{
+  yellowEvents().push({id:Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7),start:now,end:null,startNo:yellowNextLap(),endNo:null,driverStart:$('driver').value,driverEnd:''});
+  msg('🟨 イエローフラッグ開始：'+yellowClock(now));
+ }
+ persist();renderYellow();
+};
+setInterval(()=>{
+ if(yellowActive())renderYellow();
+},1000);
+
 function validateSessionName(name,old=''){name=name.trim();if(!name)return 'セッション名を入力してください';if(name.length>60)return '名前は60文字以内にしてください';if(name!==old&&Object.keys(state.sessions).includes(name))return '同じ名前があります';return ''; }
 let sessionEditorMode='create';
 function showSessionEditor(mode){sessionEditorMode=mode;$('sessionEditor').hidden=false;$('sessionEditorLabel').textContent=mode==='rename'?'セッション名を変更':'新しいセッション名';$('sessionName').value=mode==='rename'?state.current:'';$('sessionEditor').scrollIntoView({block:'nearest',behavior:'smooth'});$('sessionName').focus();}
@@ -180,20 +285,21 @@ function hideSessionEditor(){$('sessionEditor').hidden=true;}
 $('newSession').onclick=()=>showSessionEditor('create');
 $('renameSession').onclick=()=>showSessionEditor('rename');
 $('cancelSessionEditor').onclick=hideSessionEditor;
-$('sessionForm').onsubmit=e=>{e.preventDefault();const name=$('sessionName').value.trim(),old=state.current,err=validateSessionName(name,sessionEditorMode==='rename'?old:'');if(err){alert(err);return;}if(sessionEditorMode==='create'){snap();state.sessions[name]=[];state.current=name;msg('セッションを追加しました');}else if(name!==old){snap();const entries=Object.entries(state.sessions).map(([k,v])=>[k===old?name:k,v]);state.sessions=Object.fromEntries(entries);state.current=name;msg('名前を変更しました');}hideSessionEditor();persist();render();};
+$('sessionForm').onsubmit=e=>{e.preventDefault();const name=$('sessionName').value.trim(),old=state.current,err=validateSessionName(name,sessionEditorMode==='rename'?old:'');if(err){alert(err);return;}if(sessionEditorMode==='create'){snap();state.sessions[name]=[];yellowEvents(name);state.current=name;msg('セッションを追加しました');}else if(name!==old){snap();const entries=Object.entries(state.sessions).map(([k,v])=>[k===old?name:k,v]);state.sessions=Object.fromEntries(entries);const flags=yellowEvents(old);delete state.yellowFlags[old];state.yellowFlags[name]=flags;state.current=name;msg('名前を変更しました');}hideSessionEditor();persist();render();};
 $('clearSession').onclick=()=>{
- const name=state.current,qty=state.sessions[name].length;
- if(!qty){msg('「'+name+'」には消去する記録がありません');return;}
- if(!confirm('「'+name+'」のラップ記録 '+qty+' 件をすべて消去しますか？\n\nセッション名とドライバー登録は残ります。ほかのセッションの記録も消えません。\n\n取り消しは「直前の操作を取り消す」で可能ですが、念のため事前のJSONバックアップをおすすめします。'))return;
- snap();state.sessions[name]=[];persist();render();msg('「'+name+'」の'+qty+'件をクリアしました。「直前の操作を取り消す」で復元できます。');$('lap').focus();
+ const name=state.current,qty=state.sessions[name].length,flagQty=yellowEvents(name).length;
+ if(!qty&&!flagQty){msg('「'+name+'」には消去する記録がありません');return;}
+ if(!confirm('「'+name+'」のラップ記録 '+qty+' 件とイエローフラッグ履歴 '+flagQty+' 件を消去しますか？\n\nセッション名とドライバー登録は残ります。ほかのセッションには影響しません。\n\n取り消しは「直前の操作を取り消す」で可能ですが、先にJSONバックアップをおすすめします。'))return;
+ snap();state.sessions[name]=[];state.yellowFlags[name]=[];persist();render();
+ msg('「'+name+'」の記録をクリアしました。直前の取り消しが可能です。');$('lap').focus();
 };
-$('deleteSession').onclick=()=>{const names=Object.keys(state.sessions);if(names.length===1)return alert('セッションは最低1つ必要です');const name=state.current,qty=state.sessions[name].length;if(!confirm('「'+name+'」を削除しますか？'+(qty?' 記録'+qty+'件も削除されます。':'' )+' JSONバックアップを先に保存してください。'))return;snap();delete state.sessions[name];state.current=Object.keys(state.sessions)[0];persist();render();msg('セッションを削除しました。直前の取り消しが可能です');};
+$('deleteSession').onclick=()=>{const names=Object.keys(state.sessions);if(names.length===1)return alert('セッションは最低1つ必要です');const name=state.current,qty=state.sessions[name].length;if(!confirm('「'+name+'」を削除しますか？'+(qty?' 記録'+qty+'件も削除されます。':'' )+' イエローフラッグ履歴も削除されます。JSONバックアップを先に保存してください。'))return; snap();delete state.sessions[name];if(state.yellowFlags)delete state.yellowFlags[name];state.current=Object.keys(state.sessions)[0];persist();render();msg('セッションを削除しました。直前の取り消しが可能です');};
 $('tabs').addEventListener('click',e=>{const b=e.target.closest('[data-session]');if(!b)return;state.current=b.dataset.session;showAllRows=false;hideSessionEditor();persist();render();$('lap').focus();});
 $('addDriver').onclick=()=>{const d=$('newDriver').value.trim();if(!d)return; if(!state.drivers.includes(d)){snap();state.drivers.push(d);}state.selectedDriver=d;$('newDriver').value='';persist();render();msg('ドライバー「'+d+'」を選択しました');$('lap').focus();};
 $('driver').onchange=e=>{state.selectedDriver=e.target.value;persist();};
 function clearEntry(){$('lap').value='';$('total').value='';$('lapNo').value='';$('note').value='';$('lap').focus();}
 $('resetInputs').onclick=clearEntry;
-$('entryForm').onsubmit=e=>{e.preventDefault();const l=$('lap').value.trim(),t=$('total').value.trim(),n=$('lapNo').value.trim();if(!l&&!t){msg('ラップまたは総合タイムを入力してください');$('lap').focus();return;}if(Number.isNaN(parseTime(l))||Number.isNaN(parseTime(t))){msg('タイム形式を確認してください');return;}const recs=state.sessions[state.current];const auto=recs.length?Math.max(...recs.map(r=>r.no))+1:1;const no=n?Number(n):auto;if(!Number.isSafeInteger(no)||no<1){msg('周回数は1以上の整数で入力してください');return;}if(recs.some(x=>x.no===no)&&!confirm('同じ周回数の記録があります。重複して追加しますか？'))return;snap();recs.push({id:Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8),no,driver:$('driver').value,lap:l,total:t,note:$('note').value.trim(),created:new Date().toISOString()});state.selectedDriver=$('driver').value;persist();render();clearEntry();msg(state.current+' / '+no+'周を追加しました');};
+$('entryForm').onsubmit=e=>{e.preventDefault();const l=$('lap').value.trim(),t=$('total').value.trim(),n=$('lapNo').value.trim();if(!l&&!t){msg('ラップまたは総合タイムを入力してください');$('lap').focus();return;}if(Number.isNaN(parseTime(l))||Number.isNaN(parseTime(t))){msg('タイム形式を確認してください');return;}const recs=state.sessions[state.current];const auto=recs.length?Math.max(...recs.map(r=>r.no))+1:1;const no=n?Number(n):auto;if(!Number.isSafeInteger(no)||no<1){msg('周回数は1以上の整数で入力してください');return;}if(recs.some(x=>x.no===no)&&!confirm('同じ周回数の記録があります。重複して追加しますか？'))return;snap();recs.push({id:Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8),no,driver:$('driver').value,lap:l,total:t,note:$('note').value.trim(),yellowAtRecord:!!yellowActive(),created:new Date().toISOString()});state.selectedDriver=$('driver').value;persist();render();clearEntry();msg(state.current+' / '+no+'周を追加しました');};
 $('rows').onclick=e=>{const b=e.target.closest('[data-edit]');if(!b)return;const r=state.sessions[state.current].find(x=>x.id===b.dataset.edit);if(!r)return;editingId=r.id;refreshDrivers();$('eNo').value=r.no;$('eDriver').value=r.driver;$('eLap').value=r.lap;$('eTotal').value=r.total;$('eNote').value=r.note;$('modalWrap').classList.add('open');$('eLap').focus();};
 function closeModal(){$('modalWrap').classList.remove('open');editingId=null;}
 $('cancelEdit').onclick=closeModal;
