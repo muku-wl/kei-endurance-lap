@@ -39,6 +39,7 @@
   <div class="control"><label for="exclude">交代前後の除外範囲</label><select id="exclude"><option value="1" selected>前後1周ずつ（標準）</option><option value="2">前後2周ずつ</option><option value="0">交代周を除外しない</option></select></div>
   <label class="check" for="outliers"><input id="outliers" type="checkbox">通常ペースの120%超も除外</label>
  </div>
+ <p id="lastUpdated" class="notice" role="status" aria-live="polite">保存された記録を読み込んでいます。</p>
  <p class="notice"><strong>集計ルール：</strong>警告のある周回、メモに「ピット・交代・給油」などを含む周回、設定した交代前後の周回を平均ペースから除外。除外周も元記録とグラフには残します。交代はドライバー名の切替から推定しており、ピット停止の正確な秒数ではありません。<br><strong>データ：</strong>この端末・ブラウザに保存された記録を表示。LINEで他の人に共有する場合は入力アプリの「共有用スプレッドシート」を使用してください。</p>
  <p id="error" class="error" hidden role="alert"></p>
  <div id="empty" class="empty" hidden><p>このブラウザに分析できるレース記録がありません。</p><a href="./">記録入力アプリへ戻る</a></div>
