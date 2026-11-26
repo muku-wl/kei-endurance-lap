@@ -30,7 +30,7 @@
 @media print{body{background:white}.header{background:white;color:#172943;padding:8px}.header small,.header-actions,.controls,#print,.chart-tools,.details>summary{display:none!important}.page{max-width:none;padding:0}.panel,.metric{box-shadow:none;break-inside:avoid}.driver-card,.stint-card,.swap-card{break-inside:avoid}#lapsPanel{display:none}.header h1{color:#172943}}
 </style></head><body>
 <header class="header"><div class="header-inner">
- <div class="brand"><div class="brand-icon">🏁</div><div><h1>レース分析ダッシュボード</h1><small>ドライバー別ペース・交代記録・スティント分析　｜　表示版 3</small></div></div>
+ <div class="brand"><div class="brand-icon">🏁</div><div><h1>レース分析ダッシュボード</h1><small>ドライバー別ペース・交代記録・スティント分析　｜　表示版 4</small></div></div>
  <div class="header-actions"><a href="./">← 記録入力に戻る</a><button id="refresh" type="button">↻ 再読み込み</button><button id="print" type="button">印刷／PDF</button></div>
 </div></header>
 <main class="page">
@@ -39,8 +39,8 @@
   <div class="control"><label for="exclude">交代前後の除外範囲</label><select id="exclude"><option value="1" selected>前後1周ずつ（標準）</option><option value="2">前後2周ずつ</option><option value="0">交代周を除外しない</option></select></div>
   <label class="check" for="outliers"><input id="outliers" type="checkbox">通常ペースの120%超も除外</label>
  </div>
- <p id="lastUpdated" class="notice" role="status" aria-live="polite">表示版 3：保存された記録を読み込んでいます。</p>
- <p class="notice"><strong>集計ルール：</strong>警告のある周回、メモに「ピット・交代・給油」などを含む周回、設定した交代前後の周回を平均ペースから除外。除外周も元記録とグラフには残します。交代はドライバー名の切替から推定しており、ピット停止の正確な秒数ではありません。<br><strong>データ：</strong>この端末・ブラウザに保存された記録を表示。LINEで他の人に共有する場合は入力アプリの「共有用スプレッドシート」を使用してください。</p>
+ <p id="lastUpdated" class="notice" role="status" aria-live="polite">表示版 4：保存された記録を読み込んでいます。</p>
+ <p class="notice"><strong>集計ルール：</strong>警告のある周回、記録時にイエローフラッグ中だった周回、メモに「ピット・交代・給油」などを含む周回、設定した交代前後の周回を平均ペースから除外。除外周も元記録とグラフには残します。交代はドライバー名の切替から推定しており、ピット停止の正確な秒数ではありません。<br><strong>データ：</strong>この端末・ブラウザに保存された記録を表示。LINEで他の人に共有する場合は入力アプリの「共有用スプレッドシート」を使用してください。</p>
  <p id="error" class="error" hidden role="alert"></p>
  <div id="empty" class="empty" hidden><p>このブラウザに分析できるレース記録がありません。</p><a href="./">記録入力アプリへ戻る</a></div>
  <section id="summary" class="metric-grid" aria-label="セッション概要"></section>
@@ -53,7 +53,7 @@
  <section id="swapsPanel" class="panel"><div class="panel-title"><h2>🔄 メンバー交代の履歴</h2><span id="swapCount" class="pill"></span></div><p class="panel-note">交代位置と、交代前後の累積タイム・ラップタイムを表示。「通常ペースとの差」は前後2周の遅れの参考値であり、ピット作業時間そのものではありません。正確なピット停止時間は入庫・出庫の時刻を別途記録する必要があります。</p><div id="swaps" class="swap-grid"></div></section>
  <section id="lapsPanel" class="panel"><div class="panel-title"><h2>全周回の記録と除外理由</h2><span id="lapCount" class="pill"></span></div><details class="details"><summary>全ラップを展開して確認する</summary><div id="laps"></div></details></section>
 </main><footer>軽自動車耐久レース分析｜計算結果は推定を含みます。記録と実際のピットタイミングを照らし合わせて確認してください。分析ページでは記録は変更しません。</footer>
-<script src="./analytics-core.js?v=3"></script><script>(function viewerApp(){
+<script src="./analytics-core.js?v=4"></script><script>(function viewerApp(){
  'use strict';
  const A=analyticsCore();
  const KEY='kei_endurance_laplogger_v3',LEGACY='kei_endurance_laplogger_v2';
