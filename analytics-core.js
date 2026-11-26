@@ -61,6 +61,7 @@ const analyticsCore = function analyticsCore(){
       if(r.warn)r.reasons.push('要確認');
       if(!Number.isFinite(r.derivedLap)||r.derivedLap<=0)r.reasons.push('タイム不明');
       if(pitPattern.test(r.notes))r.reasons.push('メモにピット等');
+      if(r.yellowAtRecord===true)r.reasons.push('計測時イエロー');
       if(i>0){
         const p=rows[i-1];
         if(p.driver!==r.driver&&p.driver!=='未指定'&&r.driver!=='未指定')
